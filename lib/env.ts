@@ -31,8 +31,12 @@ function required(name: string): string {
 }
 
 function parseBoolean(name: string, value: string): boolean {
-  if (value === 'true') return true;
-  if (value === 'false') return false;
+  // Accept any casing and stray surrounding whitespace: "FALSE", "False"
+  // and "false" all mean the same thing to a human, and both .env files
+  // and the Vercel dashboard commonly carry uppercase booleans.
+  const normalized = value.trim().toLowerCase();
+  if (normalized === 'true') return true;
+  if (normalized === 'false') return false;
   throw new Error(
     `Invalid value for environment variable: ${name}. Expected "true" or "false".`
   );
