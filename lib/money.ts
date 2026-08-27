@@ -148,9 +148,7 @@ export function parseMoney(s: string): Paise {
   // Pad '5' -> '50' so a single decimal digit means tenths of a rupee.
   const paiseDigits = fractionDigits.padEnd(2, '0');
 
-  // BigInt(100) rather than the literal 100n: the tsconfig target is
-  // ES2017, which predates BigInt literal syntax. Identical at runtime.
-  const total = BigInt(rupeeDigits) * BigInt(100) + BigInt(paiseDigits);
+  const total = BigInt(rupeeDigits) * 100n + BigInt(paiseDigits);
   const signed = sign === '-' ? -total : total;
 
   if (signed > BigInt(MAX_PAISE) || signed < -BigInt(MAX_PAISE)) {
