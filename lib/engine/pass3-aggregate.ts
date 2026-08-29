@@ -98,6 +98,16 @@ export function runPass3(
 
   const claimedBankLineNos = new Set<number>();
   const claimedSettlementIds = new Set<string>();
+  // A bank credit direction (a) found genuinely ambiguous between two or
+  // more settlements. It must not also be treated as "the" unique credit
+  // for any one settlement in direction (b) — that would silently resolve
+  // the exact ambiguity direction (a) just refused to guess through, via
+  // the other direction's search instead. See pass3-aggregate.ts's own
+  // "Could go wrong" case: two ₹500 settlements, one ₹500 unattributed
+  // credit — direction (a) correctly refuses; without this exclusion,
+  // direction (b) would then find that same credit "uniquely" matches
+  // whichever settlement happens to be considered first.
+  const ambiguousBankLineNos = new Set<number>();
 
   // --- Direction (a): one bank credit covers N settlements ------------------
   for (const bank of bankLines) {
@@ -144,6 +154,7 @@ export function runPass3(
         target_amount_paise: bank.credit_paise,
         alternatives_found: subsets.length,
       });
+      ambiguousBankLineNos.add(bank.line_no);
     }
     // subsets.length === 0: no match here, leave for the caller's unmatched list.
   }
@@ -154,7 +165,7 @@ export function runPass3(
 
     const pool = withinPoolCap(
       bankLines
-        .filter((b) => !claimedBankLineNos.has(b.line_no))
+        .filter((b) => !claimedBankLineNos.has(b.line_no) && !ambiguousBankLineNos.has(b.line_no))
         .filter((b) => Math.abs(daysBetweenIST(settlement.created_at, b.value_date)) <= 2)
         .map((b): PoolItem<NormalizedBankLine> => ({
           id: String(b.line_no),

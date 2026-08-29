@@ -36,6 +36,43 @@ export interface Classification {
   exceptionClass: ExceptionClass;
   confidence: number;
   reason: string;
+  /** Paise — "the size of the break." Zero for a class with nothing broken. */
+  amountImpactPaise: number;
+  /** Section 11's "Next action" column, verbatim where it names one; null where the table says "None." */
+  nextAction: string | null;
+}
+
+/** Section 11's "Next action" column, one entry per class it names an action for. */
+const NEXT_ACTION: Record<ExceptionClass, string | null> = {
+  MATCHED_EXACT: null,
+  FEE_DEDUCTION: 'Post to fee expense',
+  GST_ON_FEE: 'Claim as input tax credit',
+  TDS_194O: 'Verify against Form 26AS within 2 business days',
+  TIMING_DIFFERENCE: 'Carry forward to next period',
+  PARTIAL_SETTLEMENT: null,
+  SPLIT_PAYOUT: null,
+  REFUND_NETTED: 'Post refund against revenue',
+  DISPUTE_HOLD: 'Track dispute; do not treat as receivable',
+  DUPLICATE_CREDIT: 'Confirm with bank within 1 business day',
+  MISSING_IN_BANK: 'Contact bank with UTR within 1 business day',
+  MISSING_IN_LEDGER: 'Investigate source; possible unrecorded sale',
+  // Not one of section 11's 15 classes — see the ExceptionClass note in lib/types.ts.
+  NOT_SETTLED: 'Confirm the order was actually captured; escalate to Razorpay if so',
+  AMOUNT_MISMATCH: 'Escalate to finance manager if > ₹10,000; 3 business days',
+  FEE_OVERCHARGE: 'Raise with Razorpay support, cite entity_id',
+  ROUNDING_RESIDUAL: 'Write off below materiality',
+  UNRESOLVED: 'Manual investigation',
+  INVALID_ROW: 'Fix the source row and re-ingest',
+};
+
+/** Assemble a Classification, filling next_action from the table above. */
+function classified(
+  exceptionClass: ExceptionClass,
+  confidence: number,
+  reason: string,
+  amountImpactPaise: number
+): Classification {
+  return { exceptionClass, confidence, reason, amountImpactPaise, nextAction: NEXT_ACTION[exceptionClass] };
 }
 
 /** Adjustment lines carrying a TDS-under-194O signature in free text. */
@@ -66,11 +103,12 @@ export function classifyBankLine(input: BankLineClassificationInput): Classifica
   const { bankLine, duplicateOf, utrAmountMismatch, ambiguousMatch, link } = input;
 
   if (duplicateOf !== undefined) {
-    return {
-      exceptionClass: 'DUPLICATE_CREDIT',
-      confidence: 1.0, // the duplication itself is certain; the decision to auto-resolve is a separate, business gate
-      reason: `Bank line ${bankLine.line_no} shares its UTR with line ${duplicateOf.first_bank_line_no}, credited twice at ${bankLine.credit_paise} paise.`,
-    };
+    return classified(
+      'DUPLICATE_CREDIT',
+      1.0, // the duplication itself is certain; the decision to auto-resolve is a separate, business gate
+      `Bank line ${bankLine.line_no} shares its UTR with line ${duplicateOf.first_bank_line_no}, credited twice at ${bankLine.credit_paise} paise.`,
+      bankLine.credit_paise
+    );
   }
 
   if (utrAmountMismatch !== undefined) {
@@ -81,11 +119,12 @@ export function classifyBankLine(input: BankLineClassificationInput): Classifica
       dateDeltaDays: 0,
       candidateCount: 1,
     });
-    return {
-      exceptionClass: 'AMOUNT_MISMATCH',
+    return classified(
+      'AMOUNT_MISMATCH',
       confidence,
-      reason: `Bank line ${bankLine.line_no} matches settlement ${utrAmountMismatch.settlement_id} by UTR, but the amount differs by ${utrAmountMismatch.amount_delta_paise} paise.`,
-    };
+      `Bank line ${bankLine.line_no} matches settlement ${utrAmountMismatch.settlement_id} by UTR, but the amount differs by ${utrAmountMismatch.amount_delta_paise} paise.`,
+      Math.abs(utrAmountMismatch.amount_delta_paise)
+    );
   }
 
   if (link !== undefined) {
@@ -93,35 +132,38 @@ export function classifyBankLine(input: BankLineClassificationInput): Classifica
       const direction = link.evidence.direction;
       const exceptionClass: ExceptionClass =
         direction === 'many_settlements_one_credit' ? 'PARTIAL_SETTLEMENT' : 'SPLIT_PAYOUT';
-      return {
+      return classified(
         exceptionClass,
-        confidence: link.confidence,
-        reason:
-          exceptionClass === 'PARTIAL_SETTLEMENT'
-            ? `Bank credit ${bankLine.line_no} (${bankLine.credit_paise} paise) is one payment split across ${String((link.evidence.members as string[]).length)} settlements.`
-            : `Settlement ${link.right_id} arrived as multiple bank credits, this line among them.`,
-      };
+        link.confidence,
+        exceptionClass === 'PARTIAL_SETTLEMENT'
+          ? `Bank credit ${bankLine.line_no} (${bankLine.credit_paise} paise) is one payment split across ${String((link.evidence.members as string[]).length)} settlements.`
+          : `Settlement ${link.right_id} arrived as multiple bank credits, this line among them.`,
+        0
+      );
     }
-    return {
-      exceptionClass: 'MATCHED_EXACT',
-      confidence: link.confidence,
-      reason: `Bank line ${bankLine.line_no} reconciles to settlement ${link.right_id} (pass ${link.pass}).`,
-    };
+    return classified(
+      'MATCHED_EXACT',
+      link.confidence,
+      `Bank line ${bankLine.line_no} reconciles to settlement ${link.right_id} (pass ${link.pass}).`,
+      0
+    );
   }
 
   if (ambiguousMatch !== undefined) {
-    return {
-      exceptionClass: 'UNRESOLVED',
-      confidence: ambiguousMatch.confidence,
-      reason: `Bank line ${bankLine.line_no} has ${ambiguousMatch.candidate_count} equally plausible settlement candidates; refusing to guess.`,
-    };
+    return classified(
+      'UNRESOLVED',
+      ambiguousMatch.confidence,
+      `Bank line ${bankLine.line_no} has ${ambiguousMatch.candidate_count} equally plausible settlement candidates; refusing to guess.`,
+      bankLine.credit_paise
+    );
   }
 
-  return {
-    exceptionClass: 'MISSING_IN_LEDGER',
-    confidence: 0,
-    reason: `Bank line ${bankLine.line_no} (${bankLine.credit_paise} paise) has no matching settlement after Passes 1–3.`,
-  };
+  return classified(
+    'MISSING_IN_LEDGER',
+    0,
+    `Bank line ${bankLine.line_no} (${bankLine.credit_paise} paise) has no matching settlement after Passes 1–3.`,
+    bankLine.credit_paise
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -146,52 +188,57 @@ export function classifySettlement(input: SettlementClassificationInput): Classi
 
   if (link === undefined) {
     if (ambiguousMatch !== undefined) {
-      return {
-        exceptionClass: 'UNRESOLVED',
-        confidence: 0.3 / ambiguousMatch.alternatives_found,
-        reason: `Settlement ${settlement.settlement_id} has ${ambiguousMatch.alternatives_found} equally plausible bank-side subsets; refusing to guess.`,
-      };
+      return classified(
+        'UNRESOLVED',
+        0.3 / ambiguousMatch.alternatives_found,
+        `Settlement ${settlement.settlement_id} has ${ambiguousMatch.alternatives_found} equally plausible bank-side subsets; refusing to guess.`,
+        settlement.amount_paise
+      );
     }
-    return {
-      exceptionClass: 'MISSING_IN_BANK',
-      confidence: 0,
-      reason: `Settlement ${settlement.settlement_id} (${settlement.amount_paise} paise) has no bank credit linked after Passes 1–3.`,
-    };
+    return classified(
+      'MISSING_IN_BANK',
+      0,
+      `Settlement ${settlement.settlement_id} (${settlement.amount_paise} paise) has no bank credit linked after Passes 1–3.`,
+      settlement.amount_paise
+    );
   }
 
   if (link.pass === 3) {
     const direction = link.evidence.direction;
     const exceptionClass: ExceptionClass =
       direction === 'many_settlements_one_credit' ? 'PARTIAL_SETTLEMENT' : 'SPLIT_PAYOUT';
-    return {
+    return classified(
       exceptionClass,
-      confidence: link.confidence,
-      reason:
-        exceptionClass === 'PARTIAL_SETTLEMENT'
-          ? `Settlement ${settlement.settlement_id} is one of several settlements paid by a single bank credit.`
-          : `Settlement ${settlement.settlement_id} arrived as ${String((link.evidence.members as string[]).length)} separate bank credits.`,
-    };
+      link.confidence,
+      exceptionClass === 'PARTIAL_SETTLEMENT'
+        ? `Settlement ${settlement.settlement_id} is one of several settlements paid by a single bank credit.`
+        : `Settlement ${settlement.settlement_id} arrived as ${String((link.evidence.members as string[]).length)} separate bank credits.`,
+      0
+    );
   }
 
   switch (pass4Verdict.classification) {
     case 'BALANCED':
-      return {
-        exceptionClass: 'MATCHED_EXACT',
-        confidence: link.confidence,
-        reason: `Settlement ${settlement.settlement_id} balances internally and reconciles to the bank to the paise.`,
-      };
+      return classified(
+        'MATCHED_EXACT',
+        link.confidence,
+        `Settlement ${settlement.settlement_id} balances internally and reconciles to the bank to the paise.`,
+        0
+      );
     case 'ROUNDING_RESIDUAL':
-      return {
-        exceptionClass: 'ROUNDING_RESIDUAL',
-        confidence: 0.95,
-        reason: `Settlement ${settlement.settlement_id} has a ${pass4Verdict.residual_paise} paise residual — below materiality, written off.`,
-      };
+      return classified(
+        'ROUNDING_RESIDUAL',
+        0.95,
+        `Settlement ${settlement.settlement_id} has a ${pass4Verdict.residual_paise} paise residual — below materiality, written off.`,
+        Math.abs(pass4Verdict.residual_paise)
+      );
     case 'AMOUNT_MISMATCH':
-      return {
-        exceptionClass: 'AMOUNT_MISMATCH',
-        confidence: 0.5,
-        reason: `Settlement ${settlement.settlement_id}'s lines net to ${pass4Verdict.computed_net_paise} paise against a header of ${pass4Verdict.header_amount_paise} paise — a ${pass4Verdict.residual_paise} paise residual beyond rounding.`,
-      };
+      return classified(
+        'AMOUNT_MISMATCH',
+        0.5,
+        `Settlement ${settlement.settlement_id}'s lines net to ${pass4Verdict.computed_net_paise} paise against a header of ${pass4Verdict.header_amount_paise} paise — a ${pass4Verdict.residual_paise} paise residual beyond rounding.`,
+        Math.abs(pass4Verdict.residual_paise)
+      );
   }
 }
 
@@ -221,27 +268,30 @@ export function classifySettlementLine(input: SettlementLineClassificationInput)
   const { line, orderLink, ambiguousOrderMatch, feeVerdict } = input;
 
   if (line.on_hold && line.dispute_id !== null && line.settlement_id === null) {
-    return {
-      exceptionClass: 'DISPUTE_HOLD',
-      confidence: 1.0,
-      reason: `Line ${line.entity_id} is on hold pending dispute ${line.dispute_id} and carries no settlement.`,
-    };
+    return classified(
+      'DISPUTE_HOLD',
+      1.0,
+      `Line ${line.entity_id} is on hold pending dispute ${line.dispute_id} and carries no settlement.`,
+      line.amount_paise
+    );
   }
 
   if (line.type === 'adjustment' && TDS_SIGNATURE.test(line.description)) {
-    return {
-      exceptionClass: 'TDS_194O',
-      confidence: 0.7,
-      reason: `Adjustment line ${line.entity_id} ("${line.description}") carries a TDS-under-194O signature.`,
-    };
+    return classified(
+      'TDS_194O',
+      0.7,
+      `Adjustment line ${line.entity_id} ("${line.description}") carries a TDS-under-194O signature.`,
+      Math.abs(line.debit_paise - line.credit_paise)
+    );
   }
 
   if (line.type === 'refund' && line.debit_paise > 0) {
-    return {
-      exceptionClass: 'REFUND_NETTED',
-      confidence: 0.95,
-      reason: `Refund line ${line.entity_id} deducts ${line.debit_paise} paise from this settlement's payout.`,
-    };
+    return classified(
+      'REFUND_NETTED',
+      0.95,
+      `Refund line ${line.entity_id} deducts ${line.debit_paise} paise from this settlement's payout.`,
+      line.debit_paise
+    );
   }
 
   if (orderLink !== undefined) {
@@ -249,25 +299,28 @@ export function classifySettlementLine(input: SettlementLineClassificationInput)
     // T+2 business days is the normal cycle; a settlement line linked to
     // its order well beyond that captured near a cutoff, not a problem.
     if (Math.abs(dateDeltaDays) > 3) {
-      return {
-        exceptionClass: 'TIMING_DIFFERENCE',
-        confidence: orderLink.confidence,
-        reason: `Line ${line.entity_id} matches order ${orderLink.right_id} but settled ${dateDeltaDays} days later than the normal cycle.`,
-      };
+      return classified(
+        'TIMING_DIFFERENCE',
+        orderLink.confidence,
+        `Line ${line.entity_id} matches order ${orderLink.right_id} but settled ${dateDeltaDays} days later than the normal cycle.`,
+        0
+      );
     }
     if (feeVerdict === undefined || feeVerdict.classification === 'TOLERATED') {
       if (feeVerdict !== undefined && feeVerdict.actual_fee_paise > 0) {
-        return {
-          exceptionClass: 'FEE_DEDUCTION',
-          confidence: 1.0,
-          reason: `Line ${line.entity_id}'s payout is ${feeVerdict.actual_fee_paise} paise lower than gross, matching the contracted rate.`,
-        };
+        return classified(
+          'FEE_DEDUCTION',
+          1.0,
+          `Line ${line.entity_id}'s payout is ${feeVerdict.actual_fee_paise} paise lower than gross, matching the contracted rate.`,
+          feeVerdict.actual_fee_paise
+        );
       }
-      return {
-        exceptionClass: 'MATCHED_EXACT',
-        confidence: orderLink.confidence,
-        reason: `Line ${line.entity_id} matches order ${orderLink.right_id} exactly.`,
-      };
+      return classified(
+        'MATCHED_EXACT',
+        orderLink.confidence,
+        `Line ${line.entity_id} matches order ${orderLink.right_id} exactly.`,
+        0
+      );
     }
     // fall through to the fee verdict below — matched to an order, but the
     // fee itself is the actual break.
@@ -276,34 +329,38 @@ export function classifySettlementLine(input: SettlementLineClassificationInput)
   if (feeVerdict !== undefined) {
     if (feeVerdict.classification === 'FEE_OVERCHARGE' || feeVerdict.classification === 'FEE_UNDERCHARGE') {
       const sign = feeVerdict.classification === 'FEE_OVERCHARGE' ? 'more' : 'less';
-      return {
-        exceptionClass: 'FEE_OVERCHARGE',
-        confidence: 0.5,
-        reason: `Line ${line.entity_id} was charged ${Math.abs(feeVerdict.fee_delta_paise ?? 0)} paise ${sign} than the ${line.method ?? 'unknown'} rate card expects.`,
-      };
+      return classified(
+        'FEE_OVERCHARGE',
+        0.5,
+        `Line ${line.entity_id} was charged ${Math.abs(feeVerdict.fee_delta_paise ?? 0)} paise ${sign} than the ${line.method ?? 'unknown'} rate card expects.`,
+        Math.abs(feeVerdict.fee_delta_paise ?? 0)
+      );
     }
     if (feeVerdict.classification === 'AMOUNT_MISMATCH') {
-      return {
-        exceptionClass: 'AMOUNT_MISMATCH',
-        confidence: 0,
-        reason: `Line ${line.entity_id}'s method/card type cannot be resolved against the rate card — refusing to assume a fee of zero.`,
-      };
+      return classified(
+        'AMOUNT_MISMATCH',
+        0,
+        `Line ${line.entity_id}'s method/card type cannot be resolved against the rate card — refusing to assume a fee of zero.`,
+        line.fee_paise
+      );
     }
   }
 
   if (ambiguousOrderMatch !== undefined) {
-    return {
-      exceptionClass: 'UNRESOLVED',
-      confidence: ambiguousOrderMatch.confidence,
-      reason: `Line ${line.entity_id} has ${ambiguousOrderMatch.candidate_count} equally plausible orders; refusing to guess.`,
-    };
+    return classified(
+      'UNRESOLVED',
+      ambiguousOrderMatch.confidence,
+      `Line ${line.entity_id} has ${ambiguousOrderMatch.candidate_count} equally plausible orders; refusing to guess.`,
+      line.amount_paise
+    );
   }
 
-  return {
-    exceptionClass: 'UNRESOLVED',
-    confidence: 0,
-    reason: `Line ${line.entity_id} matches no order and carries no resolvable fee verdict.`,
-  };
+  return classified(
+    'UNRESOLVED',
+    0,
+    `Line ${line.entity_id} matches no order and carries no resolvable fee verdict.`,
+    line.amount_paise
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -318,15 +375,17 @@ export function classifySettlementLine(input: SettlementLineClassificationInput)
  */
 export function classifyOrder(order: Order, verdict: Pass5OrderVerdict): Classification {
   if (verdict.classification === 'DISPUTE_HOLD') {
-    return {
-      exceptionClass: 'DISPUTE_HOLD',
-      confidence: 1.0,
-      reason: `Order ${order.order_id} has an on-hold settlement line pending dispute and is not yet payable.`,
-    };
+    return classified(
+      'DISPUTE_HOLD',
+      1.0,
+      `Order ${order.order_id} has an on-hold settlement line pending dispute and is not yet payable.`,
+      order.order_amount_paise
+    );
   }
-  return {
-    exceptionClass: 'NOT_SETTLED',
-    confidence: 0,
-    reason: `Order ${order.order_id} (${order.order_amount_paise} paise) has no settlement line referencing it at all.`,
-  };
+  return classified(
+    'NOT_SETTLED',
+    0,
+    `Order ${order.order_id} (${order.order_amount_paise} paise) has no settlement line referencing it at all.`,
+    order.order_amount_paise
+  );
 }

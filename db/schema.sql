@@ -219,8 +219,10 @@ CREATE TABLE exceptions (
   ),
   CONSTRAINT exceptions_confidence_check CHECK (confidence >= 0 AND confidence <= 1),
   -- The 15-class taxonomy of section 11, plus INVALID_ROW for unparseable
-  -- input. Enforced here so a typo in the classifier fails at write time
-  -- rather than quietly creating a sixteenth class nobody notices.
+  -- input and NOT_SETTLED (lib/types.ts's ExceptionClass doc explains why:
+  -- it resolves a naming collision between section 10's Pass 5 and section
+  -- 11's own MISSING_IN_LEDGER). Enforced here so a typo in the classifier
+  -- fails at write time rather than quietly creating a stray class nobody notices.
   CONSTRAINT exceptions_class_check CHECK (class IN (
     'MATCHED_EXACT',
     'FEE_DEDUCTION',
@@ -234,6 +236,7 @@ CREATE TABLE exceptions (
     'DUPLICATE_CREDIT',
     'MISSING_IN_BANK',
     'MISSING_IN_LEDGER',
+    'NOT_SETTLED',
     'AMOUNT_MISMATCH',
     'FEE_OVERCHARGE',
     'ROUNDING_RESIDUAL',

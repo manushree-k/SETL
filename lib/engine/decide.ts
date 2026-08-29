@@ -8,7 +8,9 @@
 // NEEDS_REVIEW or UNRESOLVED on confidence alone — it simply has no path to
 // AUTO_RESOLVED, however high its confidence climbs.
 
-import type { ExceptionClass } from '../types';
+import type { Decision, ExceptionClass } from '../types';
+
+export type { Decision };
 
 export interface DecisionThresholds {
   t_auto: number;
@@ -43,8 +45,6 @@ const AUTO_RESOLVE_ELIGIBLE: ReadonlySet<ExceptionClass> = new Set<ExceptionClas
   'REFUND_NETTED',
   'ROUNDING_RESIDUAL',
 ]);
-
-export type Decision = 'AUTO_RESOLVED' | 'NEEDS_REVIEW' | 'UNRESOLVED';
 
 /**
  * `UNRESOLVED` and `INVALID_ROW` are decided in themselves — a record the
