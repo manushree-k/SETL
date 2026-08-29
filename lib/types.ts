@@ -194,6 +194,29 @@ export interface RateCard {
 }
 
 // ---------------------------------------------------------------------------
+// Links — the engine's common vocabulary. One shape regardless of which
+// pass (1–6) produced the row; mirrors the `links` table in section 6.
+// ---------------------------------------------------------------------------
+
+export type LinkSource = 'bank' | 'settlement' | 'settlement_line' | 'order';
+export type LinkRelation = 'bank_to_settlement' | 'line_to_order' | 'refund_to_order';
+
+/** The keys used, deltas, and competing candidates behind a link's confidence. */
+export type Evidence = Record<string, unknown>;
+
+/** One proposed relationship between two records, with the evidence for it. */
+export interface Link {
+  left_source: LinkSource;
+  left_id: string;
+  right_source: LinkSource;
+  right_id: string;
+  relation: LinkRelation;
+  pass: number;
+  confidence: number;
+  evidence: Evidence;
+}
+
+// ---------------------------------------------------------------------------
 // Merchant profile — everything that differs between "main" and "holdout".
 // ---------------------------------------------------------------------------
 
