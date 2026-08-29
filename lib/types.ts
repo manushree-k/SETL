@@ -99,9 +99,17 @@ export interface BankLine {
 
 /**
  * The 15-class exception taxonomy from section 11, plus INVALID_ROW for
- * unparseable input rows. Scoped here only so ground truth can reference
- * an expected class; the engine (prompt 09) owns the classifier that
- * assigns these for real.
+ * unparseable input rows and NOT_SETTLED. Scoped here only so ground truth
+ * can reference an expected class; the engine (prompt 09) owns the
+ * classifier that assigns these for real.
+ *
+ * NOT_SETTLED is not one of section 11's 15 — it was added to resolve a
+ * naming collision: section 10's Pass 5 failure condition ("order exists
+ * but no settlement line → MISSING_IN_LEDGER") and section 11's own
+ * MISSING_IN_LEDGER ("a bank credit with no link after passes 1–3")
+ * describe opposite failure directions under one name. MISSING_IN_LEDGER
+ * keeps section 11's bank-side meaning; NOT_SETTLED is Pass 5's
+ * order-side case.
  */
 export type ExceptionClass =
   | 'MATCHED_EXACT'
@@ -116,6 +124,7 @@ export type ExceptionClass =
   | 'DUPLICATE_CREDIT'
   | 'MISSING_IN_BANK'
   | 'MISSING_IN_LEDGER'
+  | 'NOT_SETTLED'
   | 'AMOUNT_MISMATCH'
   | 'FEE_OVERCHARGE'
   | 'ROUNDING_RESIDUAL'

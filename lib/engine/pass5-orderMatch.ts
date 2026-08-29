@@ -26,13 +26,18 @@ export interface Pass5AmbiguousMatch {
   confidence: number;
 }
 
-export type Pass5OrderVerdictClass = 'DISPUTE_HOLD' | 'MISSING_IN_LEDGER';
+export type Pass5OrderVerdictClass = 'DISPUTE_HOLD' | 'NOT_SETTLED';
 
 /**
  * An order with no settlement line matched to it at all. Distinguishing
- * DISPUTE_HOLD from MISSING_IN_LEDGER is the point of this pass: a payment
+ * DISPUTE_HOLD from NOT_SETTLED is the point of this pass: a payment
  * frozen by a dispute is not the same failure as a payment that never
  * turned up in the settlement report, even though both look like "no line."
+ *
+ * NOT_SETTLED is a distinct class from the taxonomy's MISSING_IN_LEDGER
+ * (section 11), which names the opposite direction — a bank credit with
+ * nothing behind it in Source A/B. This class instead means Source A has
+ * the order but Source B never produced a settlement line for it.
  *
  * Order-status filtering (e.g. ignoring a cancelled order that was never
  * expected to settle) is left to Pass 7's classifier — this pass reports
@@ -212,7 +217,7 @@ export function runPass5(
     const onHold = referencingLines.some((l) => l.on_hold);
     orderVerdicts.push({
       order_id: order.order_id,
-      classification: onHold ? 'DISPUTE_HOLD' : 'MISSING_IN_LEDGER',
+      classification: onHold ? 'DISPUTE_HOLD' : 'NOT_SETTLED',
     });
   }
 
