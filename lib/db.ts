@@ -50,6 +50,25 @@ function createClient() {
           return n;
         },
       },
+      // Confidence scores are NUMERIC(5,4) — a ratio in [0,1], never money.
+      // Without this override postgres.js hands NUMERIC back as a string
+      // (its default precision-preserving behaviour, same reasoning as
+      // BIGINT above), which would silently turn every confidence read
+      // from the database into a string one comparison or arithmetic op
+      // away from a bug. A ratio this small is safely inside float64
+      // precision, so parsing to a number here loses nothing.
+      numeric: {
+        to: 1700,
+        from: [1700],
+        serialize: (v: number) => v.toString(),
+        parse: (v: string) => {
+          const n = Number(v);
+          if (!Number.isFinite(n)) {
+            throw new Error(`NUMERIC ${v} from the database did not parse to a finite number.`);
+          }
+          return n;
+        },
+      },
     },
   });
 }
