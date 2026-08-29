@@ -20,6 +20,7 @@ import { KIRANAKART_RATE_CARD } from '../lib/rateCard';
 import type {
   BankLine,
   CardType,
+  GroundTruthFile,
   GroundTruthRecord,
   MerchantProfile,
   Order,
@@ -1802,6 +1803,46 @@ function bankLinesToCsv(bankLines: BankLine[]): string {
   return toCsv(headers, rows);
 }
 
+// batch_id tracks the BATCH designation from the db schema ('main' /
+// 'holdout'), not the merchant profile name — the blueprint's own
+// ground_truth.json example uses 'main-v1', not 'kiranakart-v1'. Prompt 06
+// extends this map with bombayweave -> 'holdout' when that profile is added.
+const BATCH_NAME_BY_PROFILE: Record<string, string> = { kiranakart: 'main' };
+
+/**
+ * Assemble ground_truth.json exactly as recorded during generation —
+ * batch.groundTruthLog already holds one entry per record, written at
+ * the moment each anomaly was injected. This function only summarizes
+ * it into the totals block; it never re-derives anything from the CSVs.
+ */
+function buildGroundTruthFile(profile: MerchantProfile, seed: number, batch: GeneratedBatch): GroundTruthFile {
+  const paymentLines = batch.lines.filter((l) => l.type === 'payment');
+  const grossAmountPaise = paymentLines.reduce((sum, l) => sum + l.amount_paise, 0);
+  const expectedFeePaise = paymentLines.reduce((sum, l) => sum + l.fee_paise, 0);
+  const expectedGstPaise = paymentLines.reduce((sum, l) => sum + l.tax_paise, 0);
+
+  const resolvable = batch.groundTruthLog.filter((r) => r.is_resolvable).length;
+  const unresolvableByDesign = batch.groundTruthLog.filter((r) => !r.is_resolvable).length;
+
+  const batchName = BATCH_NAME_BY_PROFILE[profile.name] ?? profile.name;
+
+  return {
+    batch_id: `${batchName}-v1`,
+    seed,
+    profile: profile.name,
+    generated_at: new Date().toISOString(),
+    records: batch.groundTruthLog,
+    totals: {
+      records: batch.groundTruthLog.length,
+      resolvable,
+      unresolvable_by_design: unresolvableByDesign,
+      gross_amount_paise: grossAmountPaise,
+      expected_fee_paise: expectedFeePaise,
+      expected_gst_paise: expectedGstPaise,
+    },
+  };
+}
+
 function main(): void {
   const args = parseArgs(process.argv.slice(2));
   const profile = getProfile(args.profile);
@@ -1809,6 +1850,7 @@ function main(): void {
   console.log(`Generating batch: profile=${profile.name} seed=${args.seed} out=${args.out}`);
 
   const batch = generateBatch(profile, args.seed);
+  const groundTruth = buildGroundTruthFile(profile, args.seed, batch);
 
   mkdirSync(args.out, { recursive: true });
 
@@ -1816,13 +1858,17 @@ function main(): void {
   writeFileSync(join(args.out, 'settlements.csv'), settlementsToCsv(batch.settlements));
   writeFileSync(join(args.out, 'settlement_lines.csv'), settlementLinesToCsv(batch.lines));
   writeFileSync(join(args.out, 'bank_statement.csv'), bankLinesToCsv(batch.bankLines));
+  writeFileSync(join(args.out, 'ground_truth.json'), JSON.stringify(groundTruth, null, 2) + '\n');
 
   console.log(
     `Generated: ${batch.orders.length} orders, ${batch.lines.length} settlement lines, ` +
       `${batch.settlements.length} settlements, ${batch.bankLines.length} bank lines, ` +
-      `${batch.groundTruthLog.length} ground-truth entries ready (not yet written — ground_truth.json is prompt 05).`
+      `${batch.groundTruthLog.length} ground-truth entries ` +
+      `(${groundTruth.totals.resolvable} resolvable, ${groundTruth.totals.unresolvable_by_design} unresolvable by design).`
   );
-  console.log(`Wrote orders.csv, settlements.csv, settlement_lines.csv, bank_statement.csv to ${args.out}`);
+  console.log(
+    `Wrote orders.csv, settlements.csv, settlement_lines.csv, bank_statement.csv, ground_truth.json to ${args.out}`
+  );
 }
 
 main();
