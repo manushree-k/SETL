@@ -16,7 +16,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { Rng } from '../lib/rng';
-import { KIRANAKART_RATE_CARD } from '../lib/rateCard';
+import { KIRANAKART_RATE_CARD, BOMBAYWEAVE_RATE_CARD } from '../lib/rateCard';
 import type {
   BankLine,
   CardType,
@@ -138,11 +138,70 @@ const KIRANAKART_PROFILE: MerchantProfile = {
   bankRefNoBlankRate: 0.3,
 };
 
+/**
+ * 14 ICICI/Axis-style narration templates for the held-out profile —
+ * deliberately a different bank house style, different separators, from
+ * the main profile's HDFC style. Several carry no {utr} at all (ICICI/Axis
+ * narrations lean more on a bare reference number than HDFC's UTR-heavy
+ * style in this dataset), consistent with section 9's "ref_no blank far
+ * more often" — the settlement's own identity then rests on {ref} alone.
+ */
+const BOMBAYWEAVE_NARRATION_TEMPLATES: string[] = [
+  'NEFT-ICIC0001234-RAZORPAY SOFTWARE PVT LTD-{utr}',
+  'IMPS-{ref}-RAZORPAY SOFTWARE-AXIS BANK', // no UTR
+  'UPI/{utr}/RAZORPAYSOFTWARE@AXISBANK',
+  'RTGS/{utr}/RAZORPAY SOFTWARE PVT LTD/ICICI',
+  'NEFT/ICIC0001234/RAZORPAY SOFTWARE/{utr}',
+  'BY TRANSFER-IMPS/{ref}/RAZORPAY/AXIS', // no UTR
+  'INB/{utr}/RAZORPAY SOFTWARE PVT LTD',
+  'ICIC-NEFT-RAZORPAYSOFTWAREPVTLTD-{UTR_UPPER}',
+  'AXISB/NEFT/{ref}/RAZORPAY SETTLEMENT', // no UTR
+  'UPI/P2M/{utr}/RAZORPAY',
+  'NEFT CR/RAZORPAY SOFTWARE/{utr}/ICICI BANK',
+  'IMPS/{ref}/RAZORPAY SOFT/AXISBANK LTD', // no UTR
+  'TRANSFER FROM RAZORPAY SOFTWARE-{utr}',
+  'RTGS-{UTR_UPPER}-RAZORPAY-ICICI0001234',
+];
+
+/**
+ * Held-out profile ("bombayweave"), section 9. Differs from kiranakart on
+ * all six stated axes: seed (supplied by the CLI, not here), merchant
+ * category and order-value range, method mix with 8% international,
+ * bank narration style, rate card (incl. the flat netbanking tier), and
+ * anomaly mix (see PROFILE_TUNING above).
+ */
+const BOMBAYWEAVE_PROFILE: MerchantProfile = {
+  name: 'bombayweave',
+  rateCard: BOMBAYWEAVE_RATE_CARD,
+  // Section 9: "Card 60% (more credit cards), UPI 25%, netbanking 15%,
+  // 8% international" — no wallet share stated for this profile.
+  methodMix: { upi: 0.25, card: 0.6, netbanking: 0.15, wallet: 0 },
+  internationalCardShare: 0.08,
+  // Apparel, "₹1,200–₹1,80,000, lower volume higher value" — same 70/25/5
+  // mixture shape as main, re-ranged to the stated span.
+  amountBands: [
+    { min: toPaise(120000), max: toPaise(800000), weight: 70 }, // ₹1,200–₹8,000
+    { min: toPaise(800000), max: toPaise(4000000), weight: 25 }, // ₹8,000–₹40,000
+    { min: toPaise(4000000), max: toPaise(18000000), weight: 5 }, // ₹40,000–₹1,80,000
+  ],
+  // "Much higher refund rate (apparel returns)" — apparel return rates
+  // commonly run 20-40% in practice; kiranakart's is 0.08.
+  refundRate: 0.22,
+  ordersPerDay: 9, // "lower volume" than kiranakart's 14/day
+  days: 21,
+  // Not pinned by the blueprint; a different month from kiranakart's
+  // March 2026 window so the two batches have distinct calendar footprints.
+  startDate: '2026-04-06',
+  narrationTemplates: BOMBAYWEAVE_NARRATION_TEMPLATES,
+  bankRefNoBlankRate: 0.6, // "ref_no blank far more often" than main's 0.3
+};
+
 /** Human-readable order reference prefix per merchant, e.g. KK-2026-04412. */
-const ORDER_REF_PREFIX: Record<string, string> = { kiranakart: 'KK' };
+const ORDER_REF_PREFIX: Record<string, string> = { kiranakart: 'KK', bombayweave: 'BW' };
 
 const PROFILES: Record<string, MerchantProfile> = {
   kiranakart: KIRANAKART_PROFILE,
+  bombayweave: BOMBAYWEAVE_PROFILE,
 };
 
 function getProfile(name: string): MerchantProfile {
@@ -250,12 +309,73 @@ function generateOrders(profile: MerchantProfile, rng: Rng): Order[] {
 }
 
 /**
- * Domestic card credit/debit split. Not stated explicitly in the
- * blueprint for the main profile — only the held-out profile's contrast
- * ("Card 60%, more credit cards") is pinned. A roughly-even split here is
- * what makes that contrast meaningful later.
+ * Per-profile tuning knobs that are NOT part of the shared MerchantProfile
+ * type (lib/types.ts is out of scope for the prompt that introduced the
+ * second profile) — the card credit/debit split, and how many of each of
+ * the 10 mutation-built injected cases to produce. Section 9 asks for the
+ * held-out profile's anomaly mix to be "skewed: more aggregation and
+ * split cases, more corrupted narration, fewer clean exact matches" —
+ * that skew lives entirely in the counts below, nowhere else.
+ *
+ * kiranakart's counts here are exactly the ones tuned and verified in
+ * prompt 04. Do not change them without re-verifying that batch.
  */
-const KIRANAKART_CARD_CREDIT_SHARE = 0.55;
+interface ProfileTuning {
+  cardCreditShare: number;
+  timingDifference: number;
+  partialSettlement: number;
+  splitPayout: number;
+  aggregatedCreditPairs: number;
+  duplicateCredit: number;
+  missingInBank: number;
+  roundingResidual: number;
+  feeOvercharge: number;
+  ambiguousMatchPairs: number;
+  corruptedNarration: number;
+}
+
+const PROFILE_TUNING: Record<string, ProfileTuning> = {
+  kiranakart: {
+    cardCreditShare: 0.55, // roughly even — not stated explicitly for main; see bombayweave's contrast below
+    timingDifference: 6,
+    partialSettlement: 2,
+    splitPayout: 2,
+    aggregatedCreditPairs: 2,
+    duplicateCredit: 1,
+    missingInBank: 1,
+    roundingResidual: 2,
+    feeOvercharge: 2,
+    ambiguousMatchPairs: 1,
+    corruptedNarration: 3,
+  },
+  bombayweave: {
+    cardCreditShare: 0.75, // section 9: "more credit cards"
+    timingDifference: 4,
+    partialSettlement: 2,
+    splitPayout: 2, // parity with main — budget below prioritises aggregation instead
+    aggregatedCreditPairs: 3, // skewed up from main's 2 pairs — the main "more aggregation" signal
+    duplicateCredit: 1,
+    missingInBank: 1, // MUST fire — one of the 3 genuinely-unresolvable cases; see budget note below
+    roundingResidual: 1, // fewer of the "clean, auto-resolved" cases
+    feeOvercharge: 2,
+    ambiguousMatchPairs: 1,
+    corruptedNarration: 3, // same as main — settlement budget below has no room to push this higher
+  },
+  // Settlement budget for bombayweave (only 15 settlements total, shared
+  // across every settlement-claiming case): splitPayout(2) +
+  // aggregatedCreditPairs(3 pairs = 6) + duplicateCredit(1) +
+  // missingInBank(1) + roundingResidual(1) + corruptedNarration(3) = 14,
+  // leaving 1 settlement of headroom. An earlier attempt pushed
+  // corruptedNarration to 4 and splitPayout to 3 (17 settlements needed,
+  // more than exist), which silently starved missingInBank to zero —
+  // caught by checking every injected case actually fired, not assumed.
+};
+
+function tuningFor(profile: MerchantProfile): ProfileTuning {
+  const tuning = PROFILE_TUNING[profile.name];
+  if (!tuning) throw new Error(`No ProfileTuning entry for profile ${JSON.stringify(profile.name)}.`);
+  return tuning;
+}
 
 function samplePaymentMethod(profile: MerchantProfile, rng: Rng): PaymentMethod {
   const mix = profile.methodMix;
@@ -285,7 +405,7 @@ function generatePaymentsAndFees(
     let cardType: CardType | null = null;
     let international = false;
     if (method === 'card') {
-      cardType = rng.bool(KIRANAKART_CARD_CREDIT_SHARE) ? 'credit' : 'debit';
+      cardType = rng.bool(tuningFor(profile).cardCreditShare) ? 'credit' : 'debit';
       international = rng.bool(profile.internationalCardShare);
     }
 
@@ -963,8 +1083,6 @@ function finalizeBankStatement(bankLines: BankLine[]): void {
 
 type PendingBankEntry = { bankLine: BankLine; entry: Omit<GroundTruthRecord, 'record_id'> };
 
-const TIMING_DIFFERENCE_COUNT = 6;
-
 /**
  * Case 2, timing difference: move a payment into a settlement dated well
  * after its own capture would predict. order_id linkage stays intact —
@@ -976,7 +1094,8 @@ function injectTimingDifference(
   rng: Rng,
   batch: GeneratedRecords,
   claimedLineIds: Set<string>,
-  log: GroundTruthRecord[]
+  log: GroundTruthRecord[],
+  count: number
 ): void {
   const settlementsByDate = batch.settlements
     .slice()
@@ -989,7 +1108,7 @@ function injectTimingDifference(
 
   let picked = 0;
   for (const line of candidates) {
-    if (picked >= TIMING_DIFFERENCE_COUNT) break;
+    if (picked >= count) break;
 
     const from = settlementById.get(line.settlement_id!);
     if (!from) continue;
@@ -1020,8 +1139,6 @@ function injectTimingDifference(
   }
 }
 
-const PARTIAL_SETTLEMENT_COUNT = 2;
-
 /**
  * Case 4, partial settlement: split one payment's credit across two
  * settlements, each carrying a proportional fee/GST recomputed for its
@@ -1033,7 +1150,8 @@ function injectPartialSettlement(
   rng: Rng,
   batch: GeneratedRecords,
   claimedLineIds: Set<string>,
-  log: GroundTruthRecord[]
+  log: GroundTruthRecord[],
+  count: number
 ): void {
   const settlementById = new Map(batch.settlements.map((s) => [s.settlement_id, s]));
   const candidates = rng.shuffle(
@@ -1042,7 +1160,7 @@ function injectPartialSettlement(
 
   let picked = 0;
   for (const line of candidates) {
-    if (picked >= PARTIAL_SETTLEMENT_COUNT) break;
+    if (picked >= count) break;
     if (!line.method) continue; // defensive — every generated payment line has one
 
     const settlementA = settlementById.get(line.settlement_id!);
@@ -1112,21 +1230,20 @@ function injectPartialSettlement(
   }
 }
 
-const SPLIT_PAYOUT_COUNT = 2;
-
 /** Case 5, split payout: one settlement arrives as two bank credits summing to its total. */
 function injectSplitPayout(
   profile: MerchantProfile,
   rng: Rng,
   batch: GeneratedRecords,
   claimedSettlementIds: Set<string>,
-  pendingBankLog: PendingBankEntry[]
+  pendingBankLog: PendingBankEntry[],
+  count: number
 ): void {
   const candidates = rng.shuffle(batch.settlements.filter((s) => !claimedSettlementIds.has(s.settlement_id)));
 
   let picked = 0;
   for (const settlement of candidates) {
-    if (picked >= SPLIT_PAYOUT_COUNT) break;
+    if (picked >= count) break;
     const original = findBankLineForSettlement(batch.bankLines, settlement);
     if (!original) continue;
 
@@ -1174,21 +1291,20 @@ function injectSplitPayout(
   }
 }
 
-const AGGREGATED_CREDIT_PAIR_COUNT = 2;
-
 /** Case 6, aggregated credit: two settlements collapsed into one bank credit, narration naming only one UTR. */
 function injectAggregatedCredit(
   profile: MerchantProfile,
   rng: Rng,
   batch: GeneratedRecords,
   claimedSettlementIds: Set<string>,
-  pendingBankLog: PendingBankEntry[]
+  pendingBankLog: PendingBankEntry[],
+  pairCount: number
 ): void {
   const available = rng.shuffle(batch.settlements.filter((s) => !claimedSettlementIds.has(s.settlement_id)));
 
   let pairsDone = 0;
   let i = 0;
-  while (pairsDone < AGGREGATED_CREDIT_PAIR_COUNT && i + 1 < available.length) {
+  while (pairsDone < pairCount && i + 1 < available.length) {
     const a = available[i];
     const b = available[i + 1];
     i += 2;
@@ -1233,20 +1349,19 @@ function injectAggregatedCredit(
   }
 }
 
-const DUPLICATE_CREDIT_COUNT = 1;
-
 /** Case 7, duplicate credit: the bank posts the same UTR and amount twice, one day apart. */
 function injectDuplicateCredit(
   rng: Rng,
   batch: GeneratedRecords,
   claimedSettlementIds: Set<string>,
-  pendingBankLog: PendingBankEntry[]
+  pendingBankLog: PendingBankEntry[],
+  count: number
 ): void {
   const candidates = rng.shuffle(batch.settlements.filter((s) => !claimedSettlementIds.has(s.settlement_id)));
 
   let picked = 0;
   for (const settlement of candidates) {
-    if (picked >= DUPLICATE_CREDIT_COUNT) break;
+    if (picked >= count) break;
     const original = findBankLineForSettlement(batch.bankLines, settlement);
     if (!original) continue;
 
@@ -1279,8 +1394,6 @@ function injectDuplicateCredit(
   }
 }
 
-const MISSING_IN_BANK_COUNT = 1;
-
 /**
  * Case 8, missing in bank: the settlement says money was paid out; the
  * bank shows nothing. Genuinely unresolvable — is_resolvable: false, per
@@ -1292,13 +1405,14 @@ const MISSING_IN_BANK_COUNT = 1;
 function injectMissingInBank(
   batch: GeneratedRecords,
   claimedSettlementIds: Set<string>,
-  log: GroundTruthRecord[]
+  log: GroundTruthRecord[],
+  count: number
 ): void {
   const candidates = batch.settlements.filter((s) => !claimedSettlementIds.has(s.settlement_id));
 
   let picked = 0;
   for (const settlement of candidates) {
-    if (picked >= MISSING_IN_BANK_COUNT) break;
+    if (picked >= count) break;
     const bankLine = findBankLineForSettlement(batch.bankLines, settlement);
     if (!bankLine) continue;
 
@@ -1319,8 +1433,6 @@ function injectMissingInBank(
   }
 }
 
-const ROUNDING_RESIDUAL_COUNT = 2;
-
 /**
  * Case 10, rounding residual: perturb a settlement's HEADER amount by
  * 1-99 paise without touching its lines. This is the one mutation that
@@ -1331,13 +1443,14 @@ function injectRoundingResidual(
   rng: Rng,
   batch: GeneratedRecords,
   claimedSettlementIds: Set<string>,
-  log: GroundTruthRecord[]
+  log: GroundTruthRecord[],
+  count: number
 ): void {
   const candidates = rng.shuffle(batch.settlements.filter((s) => !claimedSettlementIds.has(s.settlement_id)));
 
   let picked = 0;
   for (const settlement of candidates) {
-    if (picked >= ROUNDING_RESIDUAL_COUNT) break;
+    if (picked >= count) break;
 
     const magnitude = rng.int(1, 99);
     const residual = rng.bool() ? magnitude : -magnitude;
@@ -1375,15 +1488,14 @@ function applyFeeOverride(line: SettlementLine, settlement: Settlement, newFee: 
   settlement.amount_paise = toPaise(settlement.amount_paise - deltaFee - deltaTax);
 }
 
-const FEE_OVERCHARGE_COUNT = 2;
-
 /** Case 11, fee overcharge: a UPI or debit-card line billed at the domestic-credit-card rate. */
 function injectFeeOvercharge(
   profile: MerchantProfile,
   rng: Rng,
   batch: GeneratedRecords,
   claimedLineIds: Set<string>,
-  log: GroundTruthRecord[]
+  log: GroundTruthRecord[],
+  count: number
 ): void {
   const settlementById = new Map(batch.settlements.map((s) => [s.settlement_id, s]));
   const candidates = rng.shuffle(
@@ -1398,7 +1510,7 @@ function injectFeeOvercharge(
 
   let picked = 0;
   for (const line of candidates) {
-    if (picked >= FEE_OVERCHARGE_COUNT) break;
+    if (picked >= count) break;
     const settlement = settlementById.get(line.settlement_id!);
     if (!settlement) continue;
 
@@ -1451,8 +1563,6 @@ function applyAmountOverride(
   settlement.tax_paise = toPaise(settlement.tax_paise + deltaTax);
 }
 
-const AMBIGUOUS_MATCH_PAIR_COUNT = 1;
-
 /**
  * Case 13, ambiguous match: two payments end up with identical amount and
  * date, both missing an order reference — genuinely unresolvable, the
@@ -1464,7 +1574,8 @@ function injectAmbiguousMatch(
   rng: Rng,
   batch: GeneratedRecords,
   claimedLineIds: Set<string>,
-  log: GroundTruthRecord[]
+  log: GroundTruthRecord[],
+  pairCount: number
 ): void {
   const settlementById = new Map(batch.settlements.map((s) => [s.settlement_id, s]));
   const paymentByOrderId = new Map<string, SettlementLine>();
@@ -1482,7 +1593,7 @@ function injectAmbiguousMatch(
 
   let pairsDone = 0;
   let i = 0;
-  while (pairsDone < AMBIGUOUS_MATCH_PAIR_COUNT && i + 1 < eligibleOrders.length) {
+  while (pairsDone < pairCount && i + 1 < eligibleOrders.length) {
     const orderA = eligibleOrders[i];
     const orderB = eligibleOrders[i + 1];
     i += 2;
@@ -1555,14 +1666,13 @@ function corruptUtrInNarration(narration: string, utr: string): string {
   return narration.slice(0, idx) + mangled + narration.slice(idx + utr.length);
 }
 
-const CORRUPTED_NARRATION_COUNT = 3;
-
 /** Case 14, corrupted narration: a UTR mangled beyond regex recovery — unresolvable by design. */
 function injectCorruptedNarration(
   rng: Rng,
   batch: GeneratedRecords,
   claimedSettlementIds: Set<string>,
-  pendingBankLog: PendingBankEntry[]
+  pendingBankLog: PendingBankEntry[],
+  count: number
 ): void {
   const findUnclaimedSettlementFor = (bankLine: BankLine) =>
     batch.settlements.find(
@@ -1573,7 +1683,7 @@ function injectCorruptedNarration(
 
   let picked = 0;
   for (const bankLine of candidates) {
-    if (picked >= CORRUPTED_NARRATION_COUNT) break;
+    if (picked >= count) break;
     const settlement = findUnclaimedSettlementFor(bankLine);
     if (!settlement) continue;
 
@@ -1606,6 +1716,7 @@ function injectAnomalies(
   const claimedLineIds = new Set<string>();
   const claimedSettlementIds = new Set<string>();
   const pendingBankLog: PendingBankEntry[] = [];
+  const counts = tuningFor(profile);
 
   // Cases already produced by earlier generation steps (7, 8, 9) — logged
   // here, not mutated again.
@@ -1617,26 +1728,26 @@ function injectAnomalies(
   // Matching-layer mutations. Settlement-line-level cases log immediately
   // (their record_id is a stable entity_id); bank-level cases defer to
   // pendingBankLog until finalizeBankStatement fixes line_no.
-  injectTimingDifference(rng, batch, claimedLineIds, log);
-  injectPartialSettlement(profile, rng, batch, claimedLineIds, log);
-  injectSplitPayout(profile, rng, batch, claimedSettlementIds, pendingBankLog);
-  injectAggregatedCredit(profile, rng, batch, claimedSettlementIds, pendingBankLog);
-  injectDuplicateCredit(rng, batch, claimedSettlementIds, pendingBankLog);
+  injectTimingDifference(rng, batch, claimedLineIds, log, counts.timingDifference);
+  injectPartialSettlement(profile, rng, batch, claimedLineIds, log, counts.partialSettlement);
+  injectSplitPayout(profile, rng, batch, claimedSettlementIds, pendingBankLog, counts.splitPayout);
+  injectAggregatedCredit(profile, rng, batch, claimedSettlementIds, pendingBankLog, counts.aggregatedCreditPairs);
+  injectDuplicateCredit(rng, batch, claimedSettlementIds, pendingBankLog, counts.duplicateCredit);
 
   // corrupted_narration needs a settlement whose bank line still carries
   // a UTR to mangle; missing_in_bank and rounding_residual do not care
   // either way (missing_in_bank works via the amount fallback). Runs
   // first among the remaining settlement-claiming mutations so it is not
   // starved of UTR-carrying settlements by mutations that don't need one.
-  injectCorruptedNarration(rng, batch, claimedSettlementIds, pendingBankLog);
+  injectCorruptedNarration(rng, batch, claimedSettlementIds, pendingBankLog, counts.corruptedNarration);
 
   // Detection-layer mutations, including the other two genuinely
   // unresolvable cases (8, 13) that give the project its honest
   // exception list.
-  injectMissingInBank(batch, claimedSettlementIds, log);
-  injectRoundingResidual(rng, batch, claimedSettlementIds, log);
-  injectFeeOvercharge(profile, rng, batch, claimedLineIds, log);
-  injectAmbiguousMatch(profile, rng, batch, claimedLineIds, log);
+  injectMissingInBank(batch, claimedSettlementIds, log, counts.missingInBank);
+  injectRoundingResidual(rng, batch, claimedSettlementIds, log, counts.roundingResidual);
+  injectFeeOvercharge(profile, rng, batch, claimedLineIds, log, counts.feeOvercharge);
+  injectAmbiguousMatch(profile, rng, batch, claimedLineIds, log, counts.ambiguousMatchPairs);
 
   finalizeBankStatement(batch.bankLines);
   for (const { bankLine, entry } of pendingBankLog) {
@@ -1807,7 +1918,7 @@ function bankLinesToCsv(bankLines: BankLine[]): string {
 // 'holdout'), not the merchant profile name — the blueprint's own
 // ground_truth.json example uses 'main-v1', not 'kiranakart-v1'. Prompt 06
 // extends this map with bombayweave -> 'holdout' when that profile is added.
-const BATCH_NAME_BY_PROFILE: Record<string, string> = { kiranakart: 'main' };
+const BATCH_NAME_BY_PROFILE: Record<string, string> = { kiranakart: 'main', bombayweave: 'holdout' };
 
 /**
  * Assemble ground_truth.json exactly as recorded during generation —

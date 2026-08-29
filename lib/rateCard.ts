@@ -27,6 +27,29 @@ export const KIRANAKART_RATE_CARD: RateCard = {
 };
 
 /**
+ * Held-out profile ("bombayweave") rate card. Section 9: 175bps domestic
+ * credit, 75bps domestic debit — both lower than the main profile — and
+ * a FLAT ₹12 netbanking fee, deliberately adversarial: it is a fee shape
+ * the main profile never contains, so Pass 6's fee audit (built against
+ * main) meets a real generalisation test rather than a distribution it
+ * was implicitly tuned on. This is exactly why RateCardTier supports
+ * `{ type: 'flat' }` at all — a bps-only shape could not express it.
+ */
+export const BOMBAYWEAVE_RATE_CARD: RateCard = {
+  gstBps: 1800,
+  upi: { type: 'bps', value: 0 },
+  cardDomesticDebit: { type: 'bps', value: 75 },
+  cardDomesticCredit: { type: 'bps', value: 175 },
+  // Not restated explicitly in section 9 — scaled down proportionally to
+  // the domestic tiers' own ~25bps reduction from the main profile.
+  cardInternational: { type: 'bps', value: 275 },
+  netbanking: { type: 'flat', value: toPaise(1200) }, // ₹12 flat
+  // Unused: bombayweave's method mix (section 9) carries no wallet share.
+  // Filled in only because RateCard requires every tier to be present.
+  wallet: { type: 'bps', value: 200 },
+};
+
+/**
  * Resolve which tier of a rate card applies to a line, given its method
  * and (for cards) card type and international flag.
  *
