@@ -79,11 +79,16 @@ export function runPass1(
     else settlementsByUtr.set(key, [s]);
   }
 
-  // First occurrence of each normalized bank UTR wins the right to attempt
-  // a match; every later bank line sharing that UTR is a duplicate credit,
-  // flagged and excluded from matching entirely (not carried to Pass 2/3 —
-  // the blueprint's "keep the first, flag the second" is a terminal call).
-  const firstBankLineForUtr = new Map<string, NormalizedBankLine>();
+  // A bank line sharing a UTR with one already seen is a duplicate credit
+  // ONLY when its amount also matches — case 7 (bank posts the identical
+  // transfer twice: same UTR, same amount) — flagged and excluded from
+  // matching entirely, the blueprint's "keep the first, flag the second"
+  // being a terminal call. A shared UTR with a DIFFERENT amount is case 5
+  // (split payout: one settlement arrives as two credits carrying "the
+  // same UTR prefix but different amounts") — not a duplicate at all, and
+  // must reach Pass 3's subset-sum untouched, or a genuine split payout is
+  // silently starved of the second credit it needs to reconcile.
+  const seenByUtrAndAmount = new Map<string, Map<number, NormalizedBankLine>>();
 
   for (const bank of bankLines) {
     if (bank.parsed_utr === null) {
@@ -92,17 +97,23 @@ export function runPass1(
     }
 
     const key = normalizeUtr(bank.parsed_utr);
-    const first = firstBankLineForUtr.get(key);
-    if (first !== undefined) {
+    let seenAmounts = seenByUtrAndAmount.get(key);
+    if (seenAmounts === undefined) {
+      seenAmounts = new Map<number, NormalizedBankLine>();
+      seenByUtrAndAmount.set(key, seenAmounts);
+    }
+
+    const priorSameAmount = seenAmounts.get(bank.credit_paise);
+    if (priorSameAmount !== undefined) {
       duplicateCredits.push({
         bank_line_no: bank.line_no,
-        first_bank_line_no: first.line_no,
+        first_bank_line_no: priorSameAmount.line_no,
         utr: key,
         bank_credit_paise: bank.credit_paise,
       });
       continue;
     }
-    firstBankLineForUtr.set(key, bank);
+    seenAmounts.set(bank.credit_paise, bank);
 
     const candidates = settlementsByUtr.get(key) ?? [];
     if (candidates.length !== 1) {

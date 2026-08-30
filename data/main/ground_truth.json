@@ -2,7 +2,7 @@
   "batch_id": "main-v1",
   "seed": 20260827,
   "profile": "kiranakart",
-  "generated_at": "2026-08-29T14:39:49.522Z",
+  "generated_at": "2026-08-30T16:47:51.617Z",
   "records": [
     {
       "record_id": "rfnd_e2a2e9bd0419a3",
@@ -717,14 +717,14 @@
       "expected_reason": "Payment split across settlements setl_0d58af936c994c and setl_6a8e3766737896."
     },
     {
-      "record_id": "setl_abdd3220e55eba",
+      "record_id": "setl_0a225c5ab2acd3",
       "source": "settlement",
       "injected_case": "missing_in_bank",
       "expected_link_ids": [],
       "expected_class": "MISSING_IN_BANK",
       "expected_decision": "UNRESOLVED",
       "is_resolvable": false,
-      "expected_reason": "Settlement setl_abdd3220e55eba (UTR 7802085733sdjdny) shows as processed but no matching bank credit was found."
+      "expected_reason": "Settlement setl_0a225c5ab2acd3 (UTR 6439240951mlfjax) shows as processed but no matching bank credit was found."
     },
     {
       "record_id": "setl_6a8e3766737896",
@@ -747,80 +747,68 @@
       "expected_reason": "Settlement header is off by ₹0.11 from its own lines — a rounding residual, written off automatically."
     },
     {
-      "record_id": "pay_b701a9aef69178",
+      "record_id": "pay_a379764a22c0c3",
       "source": "settlement_line",
       "injected_case": "fee_overcharge",
       "expected_link_ids": [
-        "ord_f06a532e1d83"
+        "ord_db7ab52c1213"
       ],
       "expected_class": "FEE_OVERCHARGE",
       "expected_decision": "NEEDS_REVIEW",
       "is_resolvable": true,
-      "expected_reason": "UPI carries zero MDR, but this line was charged ₹15.78 in fees."
+      "expected_reason": "A debit card was billed at the credit-card rate; this line was charged ₹19.20 in fees."
     },
     {
-      "record_id": "pay_4bd6f17ba2ecc8",
+      "record_id": "pay_b0d05ff747373a",
       "source": "settlement_line",
       "injected_case": "fee_overcharge",
       "expected_link_ids": [
-        "ord_dc7c39e44464"
+        "ord_36486eea2fa1"
       ],
       "expected_class": "FEE_OVERCHARGE",
       "expected_decision": "NEEDS_REVIEW",
       "is_resolvable": true,
-      "expected_reason": "UPI carries zero MDR, but this line was charged ₹65.58 in fees."
+      "expected_reason": "UPI carries zero MDR, but this line was charged ₹32.60 in fees."
     },
     {
-      "record_id": "pay_7feed03c48f166",
+      "record_id": "pay_9a6aa25ac64dff",
       "source": "settlement_line",
       "injected_case": "ambiguous_match",
       "expected_link_ids": [],
       "expected_class": "UNRESOLVED",
       "expected_decision": "UNRESOLVED",
       "is_resolvable": false,
-      "expected_reason": "Two payments of ₹1,499.00 on the same day, both missing an order reference — no unique match exists."
+      "expected_reason": "Two payments of ₹7,060.00 on the same day, both missing an order reference — no unique match exists."
     },
     {
-      "record_id": "pay_4bf8616f83009c",
+      "record_id": "pay_a3dd39ffa1486b",
       "source": "settlement_line",
       "injected_case": "ambiguous_match",
       "expected_link_ids": [],
       "expected_class": "UNRESOLVED",
       "expected_decision": "UNRESOLVED",
       "is_resolvable": false,
-      "expected_reason": "Two payments of ₹1,499.00 on the same day, both missing an order reference — no unique match exists."
+      "expected_reason": "Two payments of ₹7,060.00 on the same day, both missing an order reference — no unique match exists."
     },
     {
-      "record_id": "ord_1508e8c2d500",
+      "record_id": "ord_6a91da6cad93",
       "source": "order",
       "injected_case": "ambiguous_match",
       "expected_link_ids": [],
       "expected_class": "UNRESOLVED",
       "expected_decision": "UNRESOLVED",
       "is_resolvable": false,
-      "expected_reason": "Two payments of ₹1,499.00 on the same day, both missing an order reference — no unique match exists."
+      "expected_reason": "Two payments of ₹7,060.00 on the same day, both missing an order reference — no unique match exists."
     },
     {
-      "record_id": "ord_a135206df980",
+      "record_id": "ord_4ef8b3e64eea",
       "source": "order",
       "injected_case": "ambiguous_match",
       "expected_link_ids": [],
       "expected_class": "UNRESOLVED",
       "expected_decision": "UNRESOLVED",
       "is_resolvable": false,
-      "expected_reason": "Two payments of ₹1,499.00 on the same day, both missing an order reference — no unique match exists."
-    },
-    {
-      "source": "bank",
-      "injected_case": "split_payout",
-      "expected_link_ids": [
-        "setl_4dab63f2969f35"
-      ],
-      "expected_class": "SPLIT_PAYOUT",
-      "expected_decision": "AUTO_RESOLVED",
-      "is_resolvable": true,
-      "expected_reason": "Settlement setl_4dab63f2969f35 arrived as two separate bank credits summing to its full amount.",
-      "record_id": "bank_0007"
+      "expected_reason": "Two payments of ₹7,060.00 on the same day, both missing an order reference — no unique match exists."
     },
     {
       "source": "bank",
@@ -838,13 +826,13 @@
       "source": "bank",
       "injected_case": "split_payout",
       "expected_link_ids": [
-        "setl_b02381c76b604b"
+        "setl_4dab63f2969f35"
       ],
       "expected_class": "SPLIT_PAYOUT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Settlement setl_b02381c76b604b arrived as two separate bank credits summing to its full amount.",
-      "record_id": "bank_0003"
+      "expected_reason": "Settlement setl_4dab63f2969f35 arrived as two separate bank credits summing to its full amount.",
+      "record_id": "bank_0009"
     },
     {
       "source": "bank",
@@ -856,33 +844,45 @@
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
       "expected_reason": "Settlement setl_b02381c76b604b arrived as two separate bank credits summing to its full amount.",
-      "record_id": "bank_0004"
+      "record_id": "bank_0002"
+    },
+    {
+      "source": "bank",
+      "injected_case": "split_payout",
+      "expected_link_ids": [
+        "setl_b02381c76b604b"
+      ],
+      "expected_class": "SPLIT_PAYOUT",
+      "expected_decision": "AUTO_RESOLVED",
+      "is_resolvable": true,
+      "expected_reason": "Settlement setl_b02381c76b604b arrived as two separate bank credits summing to its full amount.",
+      "record_id": "bank_0003"
     },
     {
       "source": "bank",
       "injected_case": "aggregated_credit",
       "expected_link_ids": [
-        "setl_0a225c5ab2acd3",
-        "setl_d62597b893494b"
+        "setl_5570af976045db",
+        "setl_446441e559f1b9"
       ],
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "One bank credit covers two settlements: setl_0a225c5ab2acd3 and setl_d62597b893494b.",
-      "record_id": "bank_0011"
+      "expected_reason": "One bank credit covers two settlements: setl_5570af976045db and setl_446441e559f1b9.",
+      "record_id": "bank_0001"
     },
     {
       "source": "bank",
       "injected_case": "aggregated_credit",
       "expected_link_ids": [
-        "setl_d241d0314c3523",
-        "setl_4f78878440f3ef"
+        "setl_d62597b893494b",
+        "setl_0d58af936c994c"
       ],
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "One bank credit covers two settlements: setl_d241d0314c3523 and setl_4f78878440f3ef.",
-      "record_id": "bank_0013"
+      "expected_reason": "One bank credit covers two settlements: setl_d62597b893494b and setl_0d58af936c994c.",
+      "record_id": "bank_0005"
     },
     {
       "source": "bank",
@@ -903,8 +903,8 @@
       "expected_class": "UNRESOLVED",
       "expected_decision": "UNRESOLVED",
       "is_resolvable": false,
-      "expected_reason": "Narration UTR is truncated and mangled; cannot be matched to settlement setl_5570af976045db or any other with confidence.",
-      "record_id": "bank_0001"
+      "expected_reason": "Narration UTR is truncated and mangled; cannot be matched to settlement setl_abdd3220e55eba or any other with confidence.",
+      "record_id": "bank_0004"
     },
     {
       "source": "bank",
@@ -913,8 +913,8 @@
       "expected_class": "UNRESOLVED",
       "expected_decision": "UNRESOLVED",
       "is_resolvable": false,
-      "expected_reason": "Narration UTR is truncated and mangled; cannot be matched to settlement setl_446441e559f1b9 or any other with confidence.",
-      "record_id": "bank_0002"
+      "expected_reason": "Narration UTR is truncated and mangled; cannot be matched to settlement setl_4f78878440f3ef or any other with confidence.",
+      "record_id": "bank_0006"
     },
     {
       "source": "bank",
@@ -923,8 +923,8 @@
       "expected_class": "UNRESOLVED",
       "expected_decision": "UNRESOLVED",
       "is_resolvable": false,
-      "expected_reason": "Narration UTR is truncated and mangled; cannot be matched to settlement setl_0d58af936c994c or any other with confidence.",
-      "record_id": "bank_0005"
+      "expected_reason": "Narration UTR is truncated and mangled; cannot be matched to settlement setl_d241d0314c3523 or any other with confidence.",
+      "record_id": "bank_0013"
     },
     {
       "record_id": "ord_43e8f19d7a38",
@@ -1697,6 +1697,16 @@
       "expected_reason": "Order KK-2026-00077 links cleanly to its payment; no anomaly."
     },
     {
+      "record_id": "ord_1508e8c2d500",
+      "source": "order",
+      "injected_case": "none",
+      "expected_link_ids": [],
+      "expected_class": "MATCHED_EXACT",
+      "expected_decision": "AUTO_RESOLVED",
+      "is_resolvable": true,
+      "expected_reason": "Order KK-2026-00078 links cleanly to its payment; no anomaly."
+    },
+    {
       "record_id": "ord_7dfbb8a5eb8f",
       "source": "order",
       "injected_case": "none",
@@ -2197,16 +2207,6 @@
       "expected_reason": "Order KK-2026-00128 links cleanly to its payment; no anomaly."
     },
     {
-      "record_id": "ord_4ef8b3e64eea",
-      "source": "order",
-      "injected_case": "none",
-      "expected_link_ids": [],
-      "expected_class": "MATCHED_EXACT",
-      "expected_decision": "AUTO_RESOLVED",
-      "is_resolvable": true,
-      "expected_reason": "Order KK-2026-00129 links cleanly to its payment; no anomaly."
-    },
-    {
       "record_id": "ord_66ded7dc8095",
       "source": "order",
       "injected_case": "none",
@@ -2327,14 +2327,14 @@
       "expected_reason": "Order KK-2026-00141 links cleanly to its payment; no anomaly."
     },
     {
-      "record_id": "ord_6a91da6cad93",
+      "record_id": "ord_a135206df980",
       "source": "order",
       "injected_case": "none",
       "expected_link_ids": [],
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Order KK-2026-00142 links cleanly to its payment; no anomaly."
+      "expected_reason": "Order KK-2026-00143 links cleanly to its payment; no anomaly."
     },
     {
       "record_id": "ord_638120afd7db",
@@ -4423,6 +4423,18 @@
       "expected_reason": "Payment pay_fb48088e88230b settled with fees and GST exactly as the rate card predicts."
     },
     {
+      "record_id": "pay_4bd6f17ba2ecc8",
+      "source": "settlement_line",
+      "injected_case": "none",
+      "expected_link_ids": [
+        "ord_dc7c39e44464"
+      ],
+      "expected_class": "MATCHED_EXACT",
+      "expected_decision": "AUTO_RESOLVED",
+      "is_resolvable": true,
+      "expected_reason": "Payment pay_4bd6f17ba2ecc8 settled with fees and GST exactly as the rate card predicts."
+    },
+    {
       "record_id": "pay_e9de7e1347a379",
       "source": "settlement_line",
       "injected_case": "none",
@@ -4721,6 +4733,18 @@
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
       "expected_reason": "Payment pay_500e320ee4cc05 settled with fees and GST exactly as the rate card predicts."
+    },
+    {
+      "record_id": "pay_7feed03c48f166",
+      "source": "settlement_line",
+      "injected_case": "none",
+      "expected_link_ids": [
+        "ord_1508e8c2d500"
+      ],
+      "expected_class": "MATCHED_EXACT",
+      "expected_decision": "AUTO_RESOLVED",
+      "is_resolvable": true,
+      "expected_reason": "Payment pay_7feed03c48f166 settled with fees and GST exactly as the rate card predicts."
     },
     {
       "record_id": "pay_a72b9a2ebcdf1a",
@@ -5287,18 +5311,6 @@
       "expected_reason": "Payment pay_6aaea0054714ff settled with fees and GST exactly as the rate card predicts."
     },
     {
-      "record_id": "pay_a3dd39ffa1486b",
-      "source": "settlement_line",
-      "injected_case": "none",
-      "expected_link_ids": [
-        "ord_4ef8b3e64eea"
-      ],
-      "expected_class": "MATCHED_EXACT",
-      "expected_decision": "AUTO_RESOLVED",
-      "is_resolvable": true,
-      "expected_reason": "Payment pay_a3dd39ffa1486b settled with fees and GST exactly as the rate card predicts."
-    },
-    {
       "record_id": "pay_91efb7e0b7710b",
       "source": "settlement_line",
       "injected_case": "none",
@@ -5431,16 +5443,16 @@
       "expected_reason": "Payment pay_843d5ef1d96ed3 settled with fees and GST exactly as the rate card predicts."
     },
     {
-      "record_id": "pay_9a6aa25ac64dff",
+      "record_id": "pay_4bf8616f83009c",
       "source": "settlement_line",
       "injected_case": "none",
       "expected_link_ids": [
-        "ord_6a91da6cad93"
+        "ord_a135206df980"
       ],
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_9a6aa25ac64dff settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_4bf8616f83009c settled with fees and GST exactly as the rate card predicts."
     },
     {
       "record_id": "pay_0748a6ce1915eb",
@@ -5561,6 +5573,18 @@
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
       "expected_reason": "Payment pay_6b52c47bd0d90c settled with fees and GST exactly as the rate card predicts."
+    },
+    {
+      "record_id": "pay_b701a9aef69178",
+      "source": "settlement_line",
+      "injected_case": "none",
+      "expected_link_ids": [
+        "ord_f06a532e1d83"
+      ],
+      "expected_class": "MATCHED_EXACT",
+      "expected_decision": "AUTO_RESOLVED",
+      "is_resolvable": true,
+      "expected_reason": "Payment pay_b701a9aef69178 settled with fees and GST exactly as the rate card predicts."
     },
     {
       "record_id": "pay_b78307e8f6f65a",
@@ -5743,18 +5767,6 @@
       "expected_reason": "Payment pay_096f9b5ec449f4 settled with fees and GST exactly as the rate card predicts."
     },
     {
-      "record_id": "pay_a379764a22c0c3",
-      "source": "settlement_line",
-      "injected_case": "none",
-      "expected_link_ids": [
-        "ord_db7ab52c1213"
-      ],
-      "expected_class": "MATCHED_EXACT",
-      "expected_decision": "AUTO_RESOLVED",
-      "is_resolvable": true,
-      "expected_reason": "Payment pay_a379764a22c0c3 settled with fees and GST exactly as the rate card predicts."
-    },
-    {
       "record_id": "pay_e42ec9dc8251e2",
       "source": "settlement_line",
       "injected_case": "none",
@@ -5933,18 +5945,6 @@
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
       "expected_reason": "Payment pay_070bcc95e3b57a settled with fees and GST exactly as the rate card predicts."
-    },
-    {
-      "record_id": "pay_b0d05ff747373a",
-      "source": "settlement_line",
-      "injected_case": "none",
-      "expected_link_ids": [
-        "ord_36486eea2fa1"
-      ],
-      "expected_class": "MATCHED_EXACT",
-      "expected_decision": "AUTO_RESOLVED",
-      "is_resolvable": true,
-      "expected_reason": "Payment pay_b0d05ff747373a settled with fees and GST exactly as the rate card predicts."
     },
     {
       "record_id": "pay_2ee96a2e98a852",
@@ -7111,17 +7111,7 @@
       "expected_reason": "Payment pay_ac255134dae613 settled with fees and GST exactly as the rate card predicts."
     },
     {
-      "record_id": "bank_0006",
-      "source": "bank",
-      "injected_case": "none",
-      "expected_link_ids": [],
-      "expected_class": "MATCHED_EXACT",
-      "expected_decision": "AUTO_RESOLVED",
-      "is_resolvable": true,
-      "expected_reason": "Bank credit has no UTR in its narration; resolved by amount and date instead."
-    },
-    {
-      "record_id": "bank_0009",
+      "record_id": "bank_0007",
       "source": "bank",
       "injected_case": "none",
       "expected_link_ids": [],
@@ -7132,6 +7122,16 @@
     },
     {
       "record_id": "bank_0010",
+      "source": "bank",
+      "injected_case": "none",
+      "expected_link_ids": [],
+      "expected_class": "MATCHED_EXACT",
+      "expected_decision": "AUTO_RESOLVED",
+      "is_resolvable": true,
+      "expected_reason": "Bank credit has no UTR in its narration; resolved by amount and date instead."
+    },
+    {
+      "record_id": "bank_0011",
       "source": "bank",
       "injected_case": "none",
       "expected_link_ids": [],
@@ -7167,8 +7167,8 @@
     "records": 649,
     "resolvable": 641,
     "unresolvable_by_design": 8,
-    "gross_amount_paise": 110681100,
-    "expected_fee_paise": 922661,
-    "expected_gst_paise": 166090
+    "gross_amount_paise": 111901100,
+    "expected_fee_paise": 923611,
+    "expected_gst_paise": 166262
   }
 }

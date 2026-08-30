@@ -17,6 +17,7 @@ DROP TABLE IF EXISTS run_metrics CASCADE;
 DROP TABLE IF EXISTS audit_log CASCADE;
 DROP TABLE IF EXISTS exceptions CASCADE;
 DROP TABLE IF EXISTS links CASCADE;
+DROP TABLE IF EXISTS settlement_composition CASCADE;
 DROP TABLE IF EXISTS bank_lines CASCADE;
 DROP TABLE IF EXISTS settlement_lines CASCADE;
 DROP TABLE IF EXISTS settlements CASCADE;
@@ -90,33 +91,35 @@ CREATE INDEX settlements_run_sid_idx  ON settlements (run_id, settlement_id);
 -- ---------------------------------------------------------------------------
 -- settlement_lines — Source B, detail. Mirrors the recon API item shape.
 --
--- contribution / contribution_bucket / contribution_reason are NOT here:
--- Pass 6B (prompt 09B) adds them, so that migration is a real reviewable
--- change rather than a no-op.
+-- contribution / contribution_bucket / contribution_reason are written by
+-- Pass 6B (prompt 09B), once composition exists to compute them.
 -- ---------------------------------------------------------------------------
 CREATE TABLE settlement_lines (
-  id              TEXT        PRIMARY KEY,
-  run_id          TEXT        NOT NULL REFERENCES runs(id) ON DELETE CASCADE,
-  entity_id       TEXT        NOT NULL,
-  type            TEXT        NOT NULL,
-  debit           BIGINT      NOT NULL DEFAULT 0,
-  credit          BIGINT      NOT NULL DEFAULT 0,
-  amount          BIGINT      NOT NULL DEFAULT 0,
-  fee             BIGINT      NOT NULL DEFAULT 0,
-  tax             BIGINT      NOT NULL DEFAULT 0,
-  on_hold         BOOLEAN     NOT NULL DEFAULT FALSE,
-  settled         BOOLEAN     NOT NULL DEFAULT FALSE,
-  created_at      TIMESTAMPTZ NOT NULL,
-  settled_at      TIMESTAMPTZ,
-  settlement_id   TEXT,
-  settlement_utr  TEXT,
-  order_id        TEXT,
-  method          TEXT,
-  card_network    TEXT,
-  card_type       TEXT,
-  international   BOOLEAN     NOT NULL DEFAULT FALSE,
-  dispute_id      TEXT,
-  description     TEXT,
+  id                    TEXT        PRIMARY KEY,
+  run_id                TEXT        NOT NULL REFERENCES runs(id) ON DELETE CASCADE,
+  entity_id             TEXT        NOT NULL,
+  type                  TEXT        NOT NULL,
+  debit                 BIGINT      NOT NULL DEFAULT 0,
+  credit                BIGINT      NOT NULL DEFAULT 0,
+  amount                BIGINT      NOT NULL DEFAULT 0,
+  fee                   BIGINT      NOT NULL DEFAULT 0,
+  tax                   BIGINT      NOT NULL DEFAULT 0,
+  on_hold               BOOLEAN     NOT NULL DEFAULT FALSE,
+  settled               BOOLEAN     NOT NULL DEFAULT FALSE,
+  created_at            TIMESTAMPTZ NOT NULL,
+  settled_at            TIMESTAMPTZ,
+  settlement_id         TEXT,
+  settlement_utr        TEXT,
+  order_id              TEXT,
+  method                TEXT,
+  card_network          TEXT,
+  card_type             TEXT,
+  international         BOOLEAN     NOT NULL DEFAULT FALSE,
+  dispute_id            TEXT,
+  description           TEXT,
+  contribution          BIGINT,
+  contribution_bucket   TEXT,
+  contribution_reason   TEXT,
 
   CONSTRAINT settlement_lines_type_check CHECK (
     type IN ('payment', 'refund', 'adjustment', 'dispute', 'transfer')
@@ -126,12 +129,59 @@ CREATE TABLE settlement_lines (
   ),
   CONSTRAINT settlement_lines_card_type_check CHECK (
     card_type IS NULL OR card_type IN ('credit', 'debit')
+  ),
+  CONSTRAINT settlement_lines_contribution_bucket_check CHECK (
+    contribution_bucket IS NULL OR contribution_bucket IN ('gross', 'refund', 'dispute', 'adjustment')
   )
 );
 
 CREATE INDEX settlement_lines_run_sid_idx    ON settlement_lines (run_id, settlement_id);
 CREATE INDEX settlement_lines_run_order_idx  ON settlement_lines (run_id, order_id);
 CREATE INDEX settlement_lines_run_type_idx   ON settlement_lines (run_id, type);
+
+
+-- ---------------------------------------------------------------------------
+-- settlement_composition — one row per settlement per run. The named-bucket
+-- ladder. Written by Pass 6B, for every settlement, reconciled or not.
+-- ---------------------------------------------------------------------------
+CREATE TABLE settlement_composition (
+  run_id                    TEXT        NOT NULL REFERENCES runs(id) ON DELETE CASCADE,
+  settlement_id             TEXT        NOT NULL,
+  gross_payments            BIGINT      NOT NULL,
+  fees_total                BIGINT      NOT NULL,
+  gst_total                 BIGINT      NOT NULL,
+  refunds_total             BIGINT      NOT NULL,
+  disputes_total            BIGINT      NOT NULL,
+  adjustments_net           BIGINT      NOT NULL,
+  expected_payout           BIGINT      NOT NULL,
+  header_amount             BIGINT      NOT NULL,
+  bank_credit_total         BIGINT,
+  diff_expected_vs_header   BIGINT      NOT NULL,
+  diff_header_vs_bank       BIGINT,
+  diff_total                BIGINT,
+  payment_count             INT         NOT NULL DEFAULT 0,
+  refund_count              INT         NOT NULL DEFAULT 0,
+  dispute_count             INT         NOT NULL DEFAULT 0,
+  adjustment_count          INT         NOT NULL DEFAULT 0,
+  status                    TEXT        NOT NULL,
+  discrepancy_component     TEXT        NOT NULL,
+  evidence                  JSONB       NOT NULL DEFAULT '{}'::jsonb,
+  computed_at               TIMESTAMPTZ NOT NULL DEFAULT now(),
+
+  PRIMARY KEY (run_id, settlement_id),
+  CONSTRAINT settlement_composition_status_check CHECK (
+    status IN ('FULLY_RECONCILED', 'RECONCILED_WITH_ROUNDING', 'DISCREPANCY', 'UNMATCHED_TO_BANK')
+  ),
+  CONSTRAINT settlement_composition_component_check CHECK (
+    discrepancy_component IN (
+      'NONE', 'FEES', 'GST', 'REFUNDS', 'DISPUTES', 'ADJUSTMENTS', 'BANK_CREDIT', 'ROUNDING', 'UNATTRIBUTED'
+    )
+  )
+);
+
+CREATE INDEX settlement_composition_run_status_idx  ON settlement_composition (run_id, status);
+CREATE INDEX settlement_composition_run_diff_idx    ON settlement_composition (run_id, diff_total DESC);
+CREATE INDEX settlement_composition_run_comp_idx    ON settlement_composition (run_id, discrepancy_component);
 
 
 -- ---------------------------------------------------------------------------

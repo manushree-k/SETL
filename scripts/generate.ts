@@ -30,7 +30,7 @@ import type {
   SettlementLine,
 } from '../lib/types';
 import { formatPaise, roundHalfUp, toPaise, type Paise } from '../lib/money';
-import { parseIST, formatISTDate, settlementCycleDate } from '../lib/dates';
+import { parseIST, formatISTDate, settlementCycleDate, daysBetweenIST } from '../lib/dates';
 import { computeFee } from '../lib/rateCard';
 
 // ---------------------------------------------------------------------------
@@ -1301,17 +1301,36 @@ function injectAggregatedCredit(
   pairCount: number
 ): void {
   const available = rng.shuffle(batch.settlements.filter((s) => !claimedSettlementIds.has(s.settlement_id)));
+  const used = new Set<string>();
 
   let pairsDone = 0;
-  let i = 0;
-  while (pairsDone < pairCount && i + 1 < available.length) {
+  for (let i = 0; i < available.length && pairsDone < pairCount; i += 1) {
     const a = available[i];
-    const b = available[i + 1];
-    i += 2;
-
+    if (used.has(a.settlement_id)) continue;
     const bankA = findBankLineForSettlement(batch.bankLines, a);
-    const bankB = findBankLineForSettlement(batch.bankLines, b);
-    if (!bankA || !bankB) continue;
+    if (!bankA) continue;
+
+    // Only pair within Pass 3's own ±2-day pool window (SETL_BLUEPRINT.md
+    // section 10) — a pair further apart than that constructs an
+    // aggregated credit the engine can never actually detect. Skip this
+    // injection attempt rather than force a distant pair: scan the rest
+    // of the shuffled pool for the first still-unused, in-window partner.
+    let b: Settlement | undefined;
+    let bankB: BankLine | undefined;
+    for (let j = i + 1; j < available.length; j += 1) {
+      const candidate = available[j];
+      if (used.has(candidate.settlement_id)) continue;
+      if (Math.abs(daysBetweenIST(a.created_at, candidate.created_at)) > 2) continue;
+      const candidateBank = findBankLineForSettlement(batch.bankLines, candidate);
+      if (!candidateBank) continue;
+      b = candidate;
+      bankB = candidateBank;
+      break;
+    }
+    if (!b || !bankB) continue; // no valid in-window partner for `a` in the current pool
+
+    used.add(a.settlement_id);
+    used.add(b.settlement_id);
 
     batch.bankLines.splice(batch.bankLines.indexOf(bankA), 1);
     batch.bankLines.splice(batch.bankLines.indexOf(bankB), 1);
@@ -1494,6 +1513,7 @@ function injectFeeOvercharge(
   rng: Rng,
   batch: GeneratedRecords,
   claimedLineIds: Set<string>,
+  claimedSettlementIds: Set<string>,
   log: GroundTruthRecord[],
   count: number
 ): void {
@@ -1504,6 +1524,13 @@ function injectFeeOvercharge(
         l.type === 'payment' &&
         l.settlement_id &&
         !claimedLineIds.has(l.entity_id) &&
+        // Never mutate a settlement a bank-level injector (split/aggregate/
+        // duplicate/corrupted-narration/missing-in-bank) already claimed —
+        // applyFeeOverride below changes settlement.amount_paise, and that
+        // settlement's bank line was already fixed by the earlier mutation
+        // using the OLD amount. Stacking on top of it would silently
+        // corrupt an already-constructed case.
+        !claimedSettlementIds.has(l.settlement_id) &&
         (l.method === 'upi' || l.card_type === 'debit')
     )
   );
@@ -1574,6 +1601,7 @@ function injectAmbiguousMatch(
   rng: Rng,
   batch: GeneratedRecords,
   claimedLineIds: Set<string>,
+  claimedSettlementIds: Set<string>,
   log: GroundTruthRecord[],
   pairCount: number
 ): void {
@@ -1587,7 +1615,13 @@ function injectAmbiguousMatch(
     batch.orders.filter((o) => {
       if (o.order_status !== 'paid') return false;
       const line = paymentByOrderId.get(o.order_id);
-      return !!line && !claimedLineIds.has(line.entity_id) && !!line.settlement_id;
+      // Same guard as injectFeeOvercharge: orderB's line gets forced onto
+      // orderA's amount via applyAmountOverride below, which mutates
+      // settlementB.amount_paise. Never let that be a settlement a
+      // bank-level injector already claimed and fixed a bank line for.
+      return (
+        !!line && !claimedLineIds.has(line.entity_id) && !!line.settlement_id && !claimedSettlementIds.has(line.settlement_id)
+      );
     })
   );
 
@@ -1746,8 +1780,8 @@ function injectAnomalies(
   // exception list.
   injectMissingInBank(batch, claimedSettlementIds, log, counts.missingInBank);
   injectRoundingResidual(rng, batch, claimedSettlementIds, log, counts.roundingResidual);
-  injectFeeOvercharge(profile, rng, batch, claimedLineIds, log, counts.feeOvercharge);
-  injectAmbiguousMatch(profile, rng, batch, claimedLineIds, log, counts.ambiguousMatchPairs);
+  injectFeeOvercharge(profile, rng, batch, claimedLineIds, claimedSettlementIds, log, counts.feeOvercharge);
+  injectAmbiguousMatch(profile, rng, batch, claimedLineIds, claimedSettlementIds, log, counts.ambiguousMatchPairs);
 
   finalizeBankStatement(batch.bankLines);
   for (const { bankLine, entry } of pendingBankLog) {

@@ -19,6 +19,7 @@ const TABLES = [
   'settlements',
   'settlement_lines',
   'bank_lines',
+  'settlement_composition',
   'links',
   'exceptions',
   'audit_log',

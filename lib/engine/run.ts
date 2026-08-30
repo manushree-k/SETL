@@ -13,10 +13,12 @@
 //   the typed shapes `reconcile()` expects, calls it, and persists the
 //   result — links, exceptions, and audit rows — in one transaction.
 //
-// Not done here, by design: Pass 6B (composition) doesn't exist yet
-// (prompt 09B), so `discrepancy_component` is not attached to any
-// exception. Narration parsing and evidence-grounded explanation are the
-// LLM's jobs (section 13) and untouched by this file entirely.
+// Not done here, by design: `discrepancy_component` is folded into a
+// settlement exception's evidence bundle, not into the taxonomy itself —
+// classify.ts is out of prompt 09B's scope, so composition stays a
+// read-only enrichment of the evidence run.ts already builds. Narration
+// parsing and evidence-grounded explanation are the LLM's jobs (section 13)
+// and untouched by this file entirely.
 
 import type {
   ExceptionClass,
@@ -41,6 +43,8 @@ import { runPass3 } from './pass3-aggregate';
 import { runPass4 } from './pass4-balance';
 import { runPass5 } from './pass5-orderMatch';
 import { runPass6 } from './pass6-feeAudit';
+import { runPass6B } from './pass6b-compose';
+import type { LineContribution, SettlementComposition } from './pass6b-compose';
 import { classifyBankLine, classifySettlement, classifySettlementLine, classifyOrder } from './classify';
 import type { Classification } from './classify';
 import { decide, DEFAULT_THRESHOLDS } from './decide';
@@ -85,6 +89,8 @@ export interface ReconcileOutput {
   links: Link[];
   exceptions: ExceptionRow[];
   audit: AuditRow[];
+  compositions: SettlementComposition[];
+  lineContributions: LineContribution[];
   summary: ReconcileSummary;
 }
 
@@ -132,6 +138,14 @@ export function reconcile(input: ReconcileInput): ReconcileOutput {
   const pass6 = runPass6(input.settlementLines, input.rateCard);
 
   const links: Link[] = [...pass1.links, ...pass2.links, ...pass3.links, ...pass5.links];
+
+  const pass6b = runPass6B(
+    input.settlements,
+    input.settlementLines,
+    input.bankLines,
+    links,
+    pass6.lineVerdicts
+  );
 
   const exceptions: ExceptionRow[] = [];
   const audit: AuditRow[] = [];
@@ -220,10 +234,19 @@ export function reconcile(input: ReconcileInput): ReconcileOutput {
 
     const classification = classifySettlement({ settlement, pass4Verdict, link, ambiguousMatch });
 
+    // Pass 7's own framing: "where the record is a settlement with a
+    // non-zero difference, the exception also carries the
+    // discrepancy_component from Pass 6B." classify.ts is out of this
+    // prompt's scope, so this is folded into the evidence bundle here
+    // rather than into the taxonomy itself.
+    const composition = pass6b.compositions.find((c) => c.settlement_id === settlement.settlement_id);
+
     record('settlement', settlement.settlement_id, classification, {
       pass4Verdict: pass4Verdict.evidence,
       ambiguousMatch,
       link: link?.evidence,
+      discrepancy_component: composition?.discrepancy_component,
+      composition_status: composition?.status,
     });
   }
 
@@ -259,7 +282,14 @@ export function reconcile(input: ReconcileInput): ReconcileOutput {
     unresolved: exceptions.filter((e) => e.decision === 'UNRESOLVED').length,
   };
 
-  return { links, exceptions, audit, summary };
+  return {
+    links,
+    exceptions,
+    audit,
+    compositions: pass6b.compositions,
+    lineContributions: pass6b.lineContributions,
+    summary,
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -537,6 +567,70 @@ export async function runReconciliation(batch: Batch): Promise<RunReconciliation
             'confidence',
             'detail'
           )}
+        `;
+      }
+
+      if (result.compositions.length > 0) {
+        const compositionRows = result.compositions.map((c) => ({
+          run_id: runId,
+          settlement_id: c.settlement_id,
+          gross_payments: c.gross_payments_paise,
+          fees_total: c.fees_total_paise,
+          gst_total: c.gst_total_paise,
+          refunds_total: c.refunds_total_paise,
+          disputes_total: c.disputes_total_paise,
+          adjustments_net: c.adjustments_net_paise,
+          expected_payout: c.expected_payout_paise,
+          header_amount: c.header_amount_paise,
+          bank_credit_total: c.bank_credit_total_paise,
+          diff_expected_vs_header: c.diff_expected_vs_header_paise,
+          diff_header_vs_bank: c.diff_header_vs_bank_paise,
+          diff_total: c.diff_total_paise,
+          payment_count: c.payment_count,
+          refund_count: c.refund_count,
+          dispute_count: c.dispute_count,
+          adjustment_count: c.adjustment_count,
+          status: c.status,
+          discrepancy_component: c.discrepancy_component,
+          evidence: tx.json(c.evidence as postgres.JSONValue),
+        }));
+        await tx`
+          INSERT INTO settlement_composition ${tx(
+            compositionRows,
+            'run_id',
+            'settlement_id',
+            'gross_payments',
+            'fees_total',
+            'gst_total',
+            'refunds_total',
+            'disputes_total',
+            'adjustments_net',
+            'expected_payout',
+            'header_amount',
+            'bank_credit_total',
+            'diff_expected_vs_header',
+            'diff_header_vs_bank',
+            'diff_total',
+            'payment_count',
+            'refund_count',
+            'dispute_count',
+            'adjustment_count',
+            'status',
+            'discrepancy_component',
+            'evidence'
+          )}
+        `;
+      }
+
+      // One UPDATE per line, same reasoning as the bank_lines write-back
+      // above — ~330 lines on the main batch, well within a demo's patience.
+      for (const contribution of result.lineContributions) {
+        await tx`
+          UPDATE settlement_lines
+          SET contribution = ${contribution.contribution_paise},
+              contribution_bucket = ${contribution.contribution_bucket},
+              contribution_reason = ${contribution.contribution_reason}
+          WHERE run_id = ${runId} AND entity_id = ${contribution.entity_id}
         `;
       }
 
