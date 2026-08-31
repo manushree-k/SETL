@@ -991,15 +991,24 @@ function logExactMatchCases(batch: GeneratedRecords, log: GroundTruthRecord[]): 
     if (line.type !== 'payment') continue;
     const id = recordId('settlement_line', line.entity_id);
     if (logged.has(id)) continue;
+    // Section 11 distinguishes FEE_DEDUCTION ("payout lower because of
+    // MDR — expected") from MATCHED_EXACT, and the classifier correctly
+    // makes that distinction (lib/engine/classify.ts). A clean line still
+    // carrying a real, correctly-charged fee is FEE_DEDUCTION, not
+    // MATCHED_EXACT; only a genuinely fee-free line (UPI, 0 bps) is
+    // MATCHED_EXACT. See FAILURES.md 2026-08-31.
+    const hasFee = line.fee_paise > 0;
     log.push({
       record_id: id,
       source: 'settlement_line',
       injected_case: 'none',
       expected_link_ids: line.order_id ? [line.order_id] : [],
-      expected_class: 'MATCHED_EXACT',
+      expected_class: hasFee ? 'FEE_DEDUCTION' : 'MATCHED_EXACT',
       expected_decision: 'AUTO_RESOLVED',
       is_resolvable: true,
-      expected_reason: `Payment ${line.entity_id} settled with fees and GST exactly as the rate card predicts.`,
+      expected_reason: hasFee
+        ? `Payment ${line.entity_id}'s payout is ${formatPaise(line.fee_paise)} lower than gross, matching the contracted rate.`
+        : `Payment ${line.entity_id} settled with no fee (UPI), exactly as expected.`,
     });
   }
 

@@ -31,6 +31,7 @@ import type { Pass4Verdict } from './pass4-balance';
 import type { Pass5AmbiguousMatch, Pass5OrderVerdict } from './pass5-orderMatch';
 import type { Pass6LineVerdict } from './pass6-feeAudit';
 import { computeConfidence } from './confidence';
+import { daysBetweenIST } from '../dates';
 
 export interface Classification {
   exceptionClass: ExceptionClass;
@@ -253,19 +254,40 @@ export interface SettlementLineClassificationInput {
   ambiguousOrderMatch?: Pass5AmbiguousMatch;
   /** Pass 6's fee verdict — payment lines only. */
   feeVerdict?: Pass6LineVerdict;
+  /**
+   * The created_at of the settlement this line actually ended up in, if
+   * any — the signal TIMING_DIFFERENCE detection needs. Deliberately NOT
+   * the line-to-order date delta (Pass 5's evidence): injectTimingDifference
+   * (scripts/generate.ts) moves a line to a different SETTLEMENT, never
+   * touches its relationship to its own order, so the order-date delta
+   * never changes for a genuine timing-difference case.
+   */
+  actualSettlementCreatedAt?: Date | null;
+  /**
+   * The order's own order_amount_paise, if this line has an order_id and
+   * that order exists — needed to tell a genuine timing-difference line
+   * (which always carries its order's FULL amount; only the settlement
+   * changed) apart from a PARTIAL_SETTLEMENT half (which, by construction,
+   * carries only part of the order's amount, but lands in an equally
+   * "wrong-cycle" settlement — measured empirically against real data
+   * before picking this guard, see FAILURES.md 2026-08-31).
+   */
+  orderAmountPaise?: number | null;
 }
 
 /**
  * Settlement lines. Taxonomy rows covered: MATCHED_EXACT, FEE_DEDUCTION,
  * TDS_194O, TIMING_DIFFERENCE, REFUND_NETTED, DISPUTE_HOLD, AMOUNT_MISMATCH,
- * FEE_OVERCHARGE, UNRESOLVED.
+ * FEE_OVERCHARGE, UNRESOLVED. PARTIAL_SETTLEMENT is not yet covered here —
+ * see FAILURES.md 2026-08-31, deferred.
  *
  * Order matters: a hold takes precedence over everything else (money is
- * frozen, full stop), then TDS, then a netted refund, then order-match
- * outcomes, then the fee verdict.
+ * frozen, full stop), then TDS, then a netted refund, then the
+ * settlement-cycle timing check, then order-match outcomes, then the fee
+ * verdict.
  */
 export function classifySettlementLine(input: SettlementLineClassificationInput): Classification {
-  const { line, orderLink, ambiguousOrderMatch, feeVerdict } = input;
+  const { line, orderLink, ambiguousOrderMatch, feeVerdict, actualSettlementCreatedAt, orderAmountPaise } = input;
 
   if (line.on_hold && line.dispute_id !== null && line.settlement_id === null) {
     return classified(
@@ -294,18 +316,34 @@ export function classifySettlementLine(input: SettlementLineClassificationInput)
     );
   }
 
-  if (orderLink !== undefined) {
-    const dateDeltaDays = orderLink.evidence.date_delta_days as number;
-    // T+2 business days is the normal cycle; a settlement line linked to
-    // its order well beyond that captured near a cutoff, not a problem.
-    if (Math.abs(dateDeltaDays) > 3) {
+  // Settlement-cycle timing check. Guarded to the line's FULL order amount
+  // (not a fraction of it) so a PARTIAL_SETTLEMENT half — which lands in an
+  // equally "wrong-cycle" settlement by construction, but is a different
+  // taxonomy class — can't be misread as a timing difference; verified
+  // against real data (both batches) that this guard cleanly separates the
+  // two: genuine timing-difference lines land at a 3+ day cycle gap, every
+  // full-amount line without one lands at exactly 0 (FAILURES.md 2026-08-31).
+  if (
+    line.type === 'payment' &&
+    line.settlement_cycle_date !== null &&
+    actualSettlementCreatedAt !== null &&
+    actualSettlementCreatedAt !== undefined &&
+    orderAmountPaise !== null &&
+    orderAmountPaise !== undefined &&
+    line.amount_paise === orderAmountPaise
+  ) {
+    const cycleDeltaDays = daysBetweenIST(line.settlement_cycle_date, actualSettlementCreatedAt);
+    if (cycleDeltaDays >= 3) {
       return classified(
         'TIMING_DIFFERENCE',
-        orderLink.confidence,
-        `Line ${line.entity_id} matches order ${orderLink.right_id} but settled ${dateDeltaDays} days later than the normal cycle.`,
+        orderLink?.confidence ?? 0.9,
+        `Line ${line.entity_id} was predicted to settle ${cycleDeltaDays} days before the settlement it actually landed in.`,
         0
       );
     }
+  }
+
+  if (orderLink !== undefined) {
     if (feeVerdict === undefined || feeVerdict.classification === 'TOLERATED') {
       if (feeVerdict !== undefined && feeVerdict.actual_fee_paise > 0) {
         return classified(

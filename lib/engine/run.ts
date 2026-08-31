@@ -255,8 +255,18 @@ export function reconcile(input: ReconcileInput): ReconcileOutput {
     const orderLink = links.find((l) => l.left_source === 'settlement_line' && l.left_id === line.entity_id);
     const ambiguousOrderMatch = pass5.ambiguousMatches.find((a) => a.entity_id === line.entity_id);
     const feeVerdict = pass6.lineVerdicts.find((v) => v.entity_id === line.entity_id);
+    const actualSettlement =
+      line.settlement_id !== null ? input.settlements.find((s) => s.settlement_id === line.settlement_id) : undefined;
+    const order = line.order_id !== null ? input.orders.find((o) => o.order_id === line.order_id) : undefined;
 
-    const classification = classifySettlementLine({ line, orderLink, ambiguousOrderMatch, feeVerdict });
+    const classification = classifySettlementLine({
+      line,
+      orderLink,
+      ambiguousOrderMatch,
+      feeVerdict,
+      actualSettlementCreatedAt: actualSettlement?.created_at ?? null,
+      orderAmountPaise: order?.order_amount_paise ?? null,
+    });
 
     record('settlement_line', line.entity_id, classification, {
       orderLink: orderLink?.evidence,

@@ -2,7 +2,7 @@
   "batch_id": "main-v1",
   "seed": 20260827,
   "profile": "kiranakart",
-  "generated_at": "2026-08-31T08:19:40.363Z",
+  "generated_at": "2026-08-31T09:28:13.986Z",
   "records": [
     {
       "record_id": "rfnd_e2a2e9bd0419a3",
@@ -3853,10 +3853,10 @@
       "expected_link_ids": [
         "ord_43e8f19d7a38"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_18ec773c86b481 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_18ec773c86b481's payout is ₹16.32 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_6f576038fe9171",
@@ -3865,10 +3865,10 @@
       "expected_link_ids": [
         "ord_b7061e81ee9f"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_6f576038fe9171 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_6f576038fe9171's payout is ₹17.09 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_c28a9876601a23",
@@ -3880,7 +3880,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_c28a9876601a23 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_c28a9876601a23 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_5b41d9e672b27a",
@@ -3889,10 +3889,10 @@
       "expected_link_ids": [
         "ord_ebc2b9ef6ad8"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_5b41d9e672b27a settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_5b41d9e672b27a's payout is ₹170.79 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_e3296dc208c3b1",
@@ -3904,7 +3904,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_e3296dc208c3b1 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_e3296dc208c3b1 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_a70b330d3dce8f",
@@ -3913,10 +3913,10 @@
       "expected_link_ids": [
         "ord_1682bd8e5137"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_a70b330d3dce8f settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_a70b330d3dce8f's payout is ₹509.39 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_df68df270e27b4",
@@ -3925,10 +3925,10 @@
       "expected_link_ids": [
         "ord_a16b7209581f"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_df68df270e27b4 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_df68df270e27b4's payout is ₹12.78 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_68397554faafba",
@@ -3937,10 +3937,10 @@
       "expected_link_ids": [
         "ord_00d790ed5e03"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_68397554faafba settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_68397554faafba's payout is ₹15.75 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_b3d13c491cee73",
@@ -3949,10 +3949,10 @@
       "expected_link_ids": [
         "ord_6d8df607dc0b"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_b3d13c491cee73 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_b3d13c491cee73's payout is ₹13.30 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_bbf15d4325c536",
@@ -3961,10 +3961,10 @@
       "expected_link_ids": [
         "ord_a8f9083d79c2"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_bbf15d4325c536 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_bbf15d4325c536's payout is ₹37.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_c060256bd1618b",
@@ -3973,10 +3973,10 @@
       "expected_link_ids": [
         "ord_e3b65895204f"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_c060256bd1618b settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_c060256bd1618b's payout is ₹31.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_6bbd43f4e60c4a",
@@ -3988,7 +3988,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_6bbd43f4e60c4a settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_6bbd43f4e60c4a settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_4fbaf3a23c9408",
@@ -4000,7 +4000,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_4fbaf3a23c9408 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_4fbaf3a23c9408 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_d8aa4a4be5d660",
@@ -4012,7 +4012,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_d8aa4a4be5d660 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_d8aa4a4be5d660 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_90fa61870137a6",
@@ -4021,10 +4021,10 @@
       "expected_link_ids": [
         "ord_0a668ae899f0"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_90fa61870137a6 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_90fa61870137a6's payout is ₹7.79 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_e6ae57a2a97203",
@@ -4036,7 +4036,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_e6ae57a2a97203 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_e6ae57a2a97203 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_2af134bb10d29f",
@@ -4048,7 +4048,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_2af134bb10d29f settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_2af134bb10d29f settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_41a6764343bb74",
@@ -4060,7 +4060,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_41a6764343bb74 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_41a6764343bb74 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_8f0ea5166684e8",
@@ -4072,7 +4072,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_8f0ea5166684e8 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_8f0ea5166684e8 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_a497976181466c",
@@ -4084,7 +4084,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_a497976181466c settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_a497976181466c settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_38b3c8cbfed5f5",
@@ -4096,7 +4096,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_38b3c8cbfed5f5 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_38b3c8cbfed5f5 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_0ec7e9e1fe6a3f",
@@ -4105,10 +4105,10 @@
       "expected_link_ids": [
         "ord_202850743171"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_0ec7e9e1fe6a3f settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_0ec7e9e1fe6a3f's payout is ₹14.78 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_d42a94eb5323e5",
@@ -4120,7 +4120,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_d42a94eb5323e5 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_d42a94eb5323e5 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_9588925794d8f9",
@@ -4132,7 +4132,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_9588925794d8f9 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_9588925794d8f9 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_9858ce968b5b71",
@@ -4144,7 +4144,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_9858ce968b5b71 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_9858ce968b5b71 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_18e8660d07eee1",
@@ -4153,10 +4153,10 @@
       "expected_link_ids": [
         "ord_48c47a41c952"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_18e8660d07eee1 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_18e8660d07eee1's payout is ₹36.65 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_384510122ba728",
@@ -4165,10 +4165,10 @@
       "expected_link_ids": [
         "ord_263d580de3a7"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_384510122ba728 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_384510122ba728's payout is ₹52.38 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_6096b55b844945",
@@ -4180,7 +4180,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_6096b55b844945 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_6096b55b844945 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_b70d63f204c4f3",
@@ -4189,10 +4189,10 @@
       "expected_link_ids": [
         "ord_f3ce676d5ff3"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_b70d63f204c4f3 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_b70d63f204c4f3's payout is ₹22.32 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_9b1ea0e8656612",
@@ -4201,10 +4201,10 @@
       "expected_link_ids": [
         "ord_cfcfb0eacd42"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_9b1ea0e8656612 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_9b1ea0e8656612's payout is ₹131.38 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_cdbc0d1d29ed39",
@@ -4216,7 +4216,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_cdbc0d1d29ed39 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_cdbc0d1d29ed39 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_335708c68aec3d",
@@ -4225,10 +4225,10 @@
       "expected_link_ids": [
         "ord_7df720ab5cdf"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_335708c68aec3d settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_335708c68aec3d's payout is ₹4.49 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_af55e83843315e",
@@ -4237,10 +4237,10 @@
       "expected_link_ids": [
         "ord_e1537b284bc5"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_af55e83843315e settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_af55e83843315e's payout is ₹7.58 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_e52afe8058556e",
@@ -4249,10 +4249,10 @@
       "expected_link_ids": [
         "ord_316603a3a947"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_e52afe8058556e settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_e52afe8058556e's payout is ₹15.20 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_202d04f3b6fe26",
@@ -4264,7 +4264,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_202d04f3b6fe26 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_202d04f3b6fe26 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_68d25be278a81f",
@@ -4276,7 +4276,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_68d25be278a81f settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_68d25be278a81f settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_bbfd364a8a1952",
@@ -4288,7 +4288,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_bbfd364a8a1952 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_bbfd364a8a1952 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_541fec3815500c",
@@ -4297,10 +4297,10 @@
       "expected_link_ids": [
         "ord_4b7416fd1d9a"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_541fec3815500c settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_541fec3815500c's payout is ₹129.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_d559df154a6362",
@@ -4312,7 +4312,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_d559df154a6362 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_d559df154a6362 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_cd238affbb476f",
@@ -4324,7 +4324,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_cd238affbb476f settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_cd238affbb476f settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_5f8425ec584443",
@@ -4333,10 +4333,10 @@
       "expected_link_ids": [
         "ord_e3b05e1659a8"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_5f8425ec584443 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_5f8425ec584443's payout is ₹116.20 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_f3782bd27762c1",
@@ -4348,7 +4348,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_f3782bd27762c1 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_f3782bd27762c1 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_e94bfeabad644f",
@@ -4360,7 +4360,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_e94bfeabad644f settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_e94bfeabad644f settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_8d7901c503f459",
@@ -4369,10 +4369,10 @@
       "expected_link_ids": [
         "ord_88232dac3a23"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_8d7901c503f459 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_8d7901c503f459's payout is ₹19.93 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_a36df9981c9075",
@@ -4384,7 +4384,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_a36df9981c9075 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_a36df9981c9075 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_731af659324131",
@@ -4396,7 +4396,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_731af659324131 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_731af659324131 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_885f346dac4e5f",
@@ -4405,10 +4405,10 @@
       "expected_link_ids": [
         "ord_4bf1b4c5505d"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_885f346dac4e5f settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_885f346dac4e5f's payout is ₹23.38 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_fb48088e88230b",
@@ -4417,10 +4417,10 @@
       "expected_link_ids": [
         "ord_03d9661da0d9"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_fb48088e88230b settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_fb48088e88230b's payout is ₹17.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_4bd6f17ba2ecc8",
@@ -4432,7 +4432,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_4bd6f17ba2ecc8 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_4bd6f17ba2ecc8 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_e9de7e1347a379",
@@ -4444,7 +4444,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_e9de7e1347a379 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_e9de7e1347a379 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_4c359c2d429c9f",
@@ -4453,10 +4453,10 @@
       "expected_link_ids": [
         "ord_86a1e182ff5f"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_4c359c2d429c9f settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_4c359c2d429c9f's payout is ₹70.58 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_3e1ed574973ed4",
@@ -4468,7 +4468,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_3e1ed574973ed4 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_3e1ed574973ed4 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_ccbe3fc2addafe",
@@ -4480,7 +4480,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_ccbe3fc2addafe settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_ccbe3fc2addafe settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_571558858d3223",
@@ -4492,7 +4492,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_571558858d3223 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_571558858d3223 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_816d4892b88e2e",
@@ -4504,7 +4504,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_816d4892b88e2e settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_816d4892b88e2e settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_2cea03bcb8ac4d",
@@ -4513,10 +4513,10 @@
       "expected_link_ids": [
         "ord_2d37d6561ba9"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_2cea03bcb8ac4d settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_2cea03bcb8ac4d's payout is ₹88.19 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_8ee931ea751d13",
@@ -4525,10 +4525,10 @@
       "expected_link_ids": [
         "ord_b2baceb4c82b"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_8ee931ea751d13 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_8ee931ea751d13's payout is ₹18.62 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_64de31f978f9c8",
@@ -4540,7 +4540,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_64de31f978f9c8 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_64de31f978f9c8 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_e72192225f4bc9",
@@ -4552,7 +4552,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_e72192225f4bc9 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_e72192225f4bc9 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_9d113df89c3879",
@@ -4564,7 +4564,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_9d113df89c3879 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_9d113df89c3879 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_96f489a5b2215f",
@@ -4576,7 +4576,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_96f489a5b2215f settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_96f489a5b2215f settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_a4fbcad75fb589",
@@ -4588,7 +4588,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_a4fbcad75fb589 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_a4fbcad75fb589 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_9cc88f6c7f87af",
@@ -4600,7 +4600,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_9cc88f6c7f87af settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_9cc88f6c7f87af settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_60f4af0e42121f",
@@ -4612,7 +4612,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_60f4af0e42121f settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_60f4af0e42121f settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_774cd8e6ddcb88",
@@ -4624,7 +4624,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_774cd8e6ddcb88 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_774cd8e6ddcb88 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_6b8df1464baa32",
@@ -4636,7 +4636,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_6b8df1464baa32 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_6b8df1464baa32 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_ba5786a167afaa",
@@ -4648,7 +4648,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_ba5786a167afaa settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_ba5786a167afaa settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_46a39e96cec1cf",
@@ -4657,10 +4657,10 @@
       "expected_link_ids": [
         "ord_f38b28d6046c"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_46a39e96cec1cf settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_46a39e96cec1cf's payout is ₹19.79 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_cfe35c601d1fd4",
@@ -4672,7 +4672,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_cfe35c601d1fd4 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_cfe35c601d1fd4 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_4c88c2fde069d1",
@@ -4684,7 +4684,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_4c88c2fde069d1 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_4c88c2fde069d1 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_cda01c8655e24f",
@@ -4693,10 +4693,10 @@
       "expected_link_ids": [
         "ord_a7361130b1b7"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_cda01c8655e24f settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_cda01c8655e24f's payout is ₹39.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_f1b3b8d14c89ea",
@@ -4705,10 +4705,10 @@
       "expected_link_ids": [
         "ord_31e1c6b4c0fa"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_f1b3b8d14c89ea settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_f1b3b8d14c89ea's payout is ₹9.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_baa590b8372c6c",
@@ -4717,10 +4717,10 @@
       "expected_link_ids": [
         "ord_fc59a2e444f2"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_baa590b8372c6c settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_baa590b8372c6c's payout is ₹15.83 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_29104b49196b59",
@@ -4729,10 +4729,10 @@
       "expected_link_ids": [
         "ord_c084949573fd"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_29104b49196b59 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_29104b49196b59's payout is ₹14.78 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_500e320ee4cc05",
@@ -4741,10 +4741,10 @@
       "expected_link_ids": [
         "ord_3e97f5907317"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_500e320ee4cc05 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_500e320ee4cc05's payout is ₹7.19 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_7feed03c48f166",
@@ -4756,7 +4756,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_7feed03c48f166 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_7feed03c48f166 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_a72b9a2ebcdf1a",
@@ -4768,7 +4768,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_a72b9a2ebcdf1a settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_a72b9a2ebcdf1a settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_d117c99cd2d512",
@@ -4777,10 +4777,10 @@
       "expected_link_ids": [
         "ord_0c9d76bd1114"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_d117c99cd2d512 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_d117c99cd2d512's payout is ₹33.60 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_236898f11fa2bb",
@@ -4789,10 +4789,10 @@
       "expected_link_ids": [
         "ord_80d356c31562"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_236898f11fa2bb settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_236898f11fa2bb's payout is ₹41.18 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_72019d8ecc569d",
@@ -4804,7 +4804,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_72019d8ecc569d settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_72019d8ecc569d settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_f2c307651486f8",
@@ -4813,10 +4813,10 @@
       "expected_link_ids": [
         "ord_186c4428848d"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_f2c307651486f8 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_f2c307651486f8's payout is ₹43.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_6a35288aaf19c2",
@@ -4828,7 +4828,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_6a35288aaf19c2 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_6a35288aaf19c2 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_1974afe151f31b",
@@ -4840,7 +4840,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_1974afe151f31b settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_1974afe151f31b settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_4659f108ea0a68",
@@ -4852,7 +4852,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_4659f108ea0a68 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_4659f108ea0a68 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_cf570d7b66cbbd",
@@ -4864,7 +4864,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_cf570d7b66cbbd settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_cf570d7b66cbbd settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_5d81118321a8af",
@@ -4876,7 +4876,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_5d81118321a8af settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_5d81118321a8af settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_3082fa7a99582f",
@@ -4885,10 +4885,10 @@
       "expected_link_ids": [
         "ord_fe55f8c6064a"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_3082fa7a99582f settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_3082fa7a99582f's payout is ₹62.09 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_f265704afa42c8",
@@ -4900,7 +4900,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_f265704afa42c8 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_f265704afa42c8 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_fce882e22cceac",
@@ -4909,10 +4909,10 @@
       "expected_link_ids": [
         "ord_f9bccdc561bc"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_fce882e22cceac settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_fce882e22cceac's payout is ₹7.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_d7c55b0ea8a9a1",
@@ -4924,7 +4924,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_d7c55b0ea8a9a1 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_d7c55b0ea8a9a1 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_2ee8d488009330",
@@ -4933,10 +4933,10 @@
       "expected_link_ids": [
         "ord_d8402fc7562e"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_2ee8d488009330 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_2ee8d488009330's payout is ₹14.39 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_138ca17e935009",
@@ -4948,7 +4948,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_138ca17e935009 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_138ca17e935009 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_f05bad9f5f3d67",
@@ -4957,10 +4957,10 @@
       "expected_link_ids": [
         "ord_38c7727efe48"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_f05bad9f5f3d67 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_f05bad9f5f3d67's payout is ₹109.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_c1ba5f2ac14c37",
@@ -4972,7 +4972,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_c1ba5f2ac14c37 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_c1ba5f2ac14c37 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_1b0447e93da345",
@@ -4984,7 +4984,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_1b0447e93da345 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_1b0447e93da345 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_54e325ceacaf54",
@@ -4993,10 +4993,10 @@
       "expected_link_ids": [
         "ord_12cc3d6cadb4"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_54e325ceacaf54 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_54e325ceacaf54's payout is ₹85.04 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_8414166cbf0ffc",
@@ -5008,7 +5008,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_8414166cbf0ffc settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_8414166cbf0ffc settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_02dfdb5d83f5b2",
@@ -5017,10 +5017,10 @@
       "expected_link_ids": [
         "ord_19f03981e327"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_02dfdb5d83f5b2 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_02dfdb5d83f5b2's payout is ₹107.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_6351f6a1c4e956",
@@ -5032,7 +5032,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_6351f6a1c4e956 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_6351f6a1c4e956 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_3a75acd8ea9aeb",
@@ -5044,7 +5044,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_3a75acd8ea9aeb settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_3a75acd8ea9aeb settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_0c3065b0f12d0e",
@@ -5053,10 +5053,10 @@
       "expected_link_ids": [
         "ord_2416e4735a07"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_0c3065b0f12d0e settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_0c3065b0f12d0e's payout is ₹17.40 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_0a813ab8b7dc2f",
@@ -5065,10 +5065,10 @@
       "expected_link_ids": [
         "ord_3c6e6d24e826"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_0a813ab8b7dc2f settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_0a813ab8b7dc2f's payout is ₹24.27 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_e921972dd3dd65",
@@ -5077,10 +5077,10 @@
       "expected_link_ids": [
         "ord_da3d392f2ec5"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_e921972dd3dd65 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_e921972dd3dd65's payout is ₹40.78 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_726b3f4cc3c43b",
@@ -5089,10 +5089,10 @@
       "expected_link_ids": [
         "ord_79c95fb0923f"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_726b3f4cc3c43b settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_726b3f4cc3c43b's payout is ₹35.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_e9d0eca5e197db",
@@ -5104,7 +5104,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_e9d0eca5e197db settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_e9d0eca5e197db settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_98bf939bde7fdc",
@@ -5113,10 +5113,10 @@
       "expected_link_ids": [
         "ord_766c2171f5f2"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_98bf939bde7fdc settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_98bf939bde7fdc's payout is ₹26.78 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_9b486ee002f023",
@@ -5128,7 +5128,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_9b486ee002f023 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_9b486ee002f023 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_660a154614a78a",
@@ -5137,10 +5137,10 @@
       "expected_link_ids": [
         "ord_e7c77f066c71"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_660a154614a78a settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_660a154614a78a's payout is ₹16.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_ccabd11bf4af54",
@@ -5152,7 +5152,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_ccabd11bf4af54 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_ccabd11bf4af54 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_2764f1e5c45cdb",
@@ -5164,7 +5164,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_2764f1e5c45cdb settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_2764f1e5c45cdb settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_ba732a2d35dfd0",
@@ -5176,7 +5176,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_ba732a2d35dfd0 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_ba732a2d35dfd0 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_4cf8a24b89c60d",
@@ -5185,10 +5185,10 @@
       "expected_link_ids": [
         "ord_0306ef9fe686"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_4cf8a24b89c60d settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_4cf8a24b89c60d's payout is ₹22.49 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_21b5eaaabd60f8",
@@ -5200,7 +5200,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_21b5eaaabd60f8 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_21b5eaaabd60f8 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_e2543685f1aa9e",
@@ -5212,7 +5212,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_e2543685f1aa9e settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_e2543685f1aa9e settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_21698121958173",
@@ -5224,7 +5224,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_21698121958173 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_21698121958173 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_1d03b493191c11",
@@ -5233,10 +5233,10 @@
       "expected_link_ids": [
         "ord_1e8beed30c07"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_1d03b493191c11 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_1d03b493191c11's payout is ₹57.59 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_ce942a9055177e",
@@ -5248,7 +5248,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_ce942a9055177e settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_ce942a9055177e settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_dace076094148f",
@@ -5260,7 +5260,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_dace076094148f settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_dace076094148f settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_05df7e7f6e0a40",
@@ -5269,10 +5269,10 @@
       "expected_link_ids": [
         "ord_a8fcc3eb9e9c"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_05df7e7f6e0a40 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_05df7e7f6e0a40's payout is ₹6.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_6aaea0054714ff",
@@ -5281,10 +5281,10 @@
       "expected_link_ids": [
         "ord_2d90f4f03d89"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_6aaea0054714ff settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_6aaea0054714ff's payout is ₹25.58 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_a3dd39ffa1486b",
@@ -5293,10 +5293,10 @@
       "expected_link_ids": [
         "ord_4ef8b3e64eea"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_a3dd39ffa1486b settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_a3dd39ffa1486b's payout is ₹15.84 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_91efb7e0b7710b",
@@ -5305,10 +5305,10 @@
       "expected_link_ids": [
         "ord_66ded7dc8095"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_91efb7e0b7710b settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_91efb7e0b7710b's payout is ₹24.78 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_e7829600cee0ac",
@@ -5320,7 +5320,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_e7829600cee0ac settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_e7829600cee0ac settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_6737d4549e22da",
@@ -5329,10 +5329,10 @@
       "expected_link_ids": [
         "ord_7972daad93e0"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_6737d4549e22da settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_6737d4549e22da's payout is ₹21.59 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_a13276e0d34151",
@@ -5341,10 +5341,10 @@
       "expected_link_ids": [
         "ord_ddc1933fabad"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_a13276e0d34151 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_a13276e0d34151's payout is ₹11.58 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_9f735231692159",
@@ -5353,10 +5353,10 @@
       "expected_link_ids": [
         "ord_1ec1186c97ca"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_9f735231692159 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_9f735231692159's payout is ₹12.95 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_c0eee72f72d8ee",
@@ -5368,7 +5368,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_c0eee72f72d8ee settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_c0eee72f72d8ee settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_6a233f46b75106",
@@ -5377,10 +5377,10 @@
       "expected_link_ids": [
         "ord_ad6b54a343d9"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_6a233f46b75106 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_6a233f46b75106's payout is ₹35.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_80b46ddc6b88c0",
@@ -5389,10 +5389,10 @@
       "expected_link_ids": [
         "ord_b7c5f86a66fb"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_80b46ddc6b88c0 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_80b46ddc6b88c0's payout is ₹47.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_695dd86b868724",
@@ -5404,7 +5404,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_695dd86b868724 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_695dd86b868724 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_6a39ceed6c3fc6",
@@ -5416,7 +5416,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_6a39ceed6c3fc6 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_6a39ceed6c3fc6 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_843d5ef1d96ed3",
@@ -5428,7 +5428,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_843d5ef1d96ed3 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_843d5ef1d96ed3 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_4bf8616f83009c",
@@ -5440,7 +5440,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_4bf8616f83009c settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_4bf8616f83009c settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_0748a6ce1915eb",
@@ -5449,10 +5449,10 @@
       "expected_link_ids": [
         "ord_638120afd7db"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_0748a6ce1915eb settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_0748a6ce1915eb's payout is ₹25.06 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_8a48458446f3d9",
@@ -5461,10 +5461,10 @@
       "expected_link_ids": [
         "ord_1221d3fdafe6"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_8a48458446f3d9 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_8a48458446f3d9's payout is ₹44.60 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_c3a9bc207c036b",
@@ -5473,10 +5473,10 @@
       "expected_link_ids": [
         "ord_93004599f38a"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_c3a9bc207c036b settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_c3a9bc207c036b's payout is ₹29.78 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_b0a1412b10df1f",
@@ -5488,7 +5488,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_b0a1412b10df1f settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_b0a1412b10df1f settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_e2c195bd79df19",
@@ -5500,7 +5500,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_e2c195bd79df19 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_e2c195bd79df19 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_e2920a4b143496",
@@ -5509,10 +5509,10 @@
       "expected_link_ids": [
         "ord_ea8a2d03b637"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_e2920a4b143496 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_e2920a4b143496's payout is ₹8.63 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_3822d2693724a0",
@@ -5521,10 +5521,10 @@
       "expected_link_ids": [
         "ord_edd6e41a3397"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_3822d2693724a0 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_3822d2693724a0's payout is ₹39.88 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_1bbdab87610a61",
@@ -5533,10 +5533,10 @@
       "expected_link_ids": [
         "ord_a5bb974ca6ed"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_1bbdab87610a61 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_1bbdab87610a61's payout is ₹23.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_85cc53657e6233",
@@ -5548,7 +5548,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_85cc53657e6233 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_85cc53657e6233 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_6b52c47bd0d90c",
@@ -5560,7 +5560,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_6b52c47bd0d90c settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_6b52c47bd0d90c settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_b701a9aef69178",
@@ -5572,7 +5572,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_b701a9aef69178 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_b701a9aef69178 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_b78307e8f6f65a",
@@ -5581,10 +5581,10 @@
       "expected_link_ids": [
         "ord_da535b612486"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_b78307e8f6f65a settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_b78307e8f6f65a's payout is ₹155.60 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_436979a08f76c6",
@@ -5596,7 +5596,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_436979a08f76c6 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_436979a08f76c6 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_7865c18c58ee8b",
@@ -5605,10 +5605,10 @@
       "expected_link_ids": [
         "ord_ce212ea045a4"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_7865c18c58ee8b settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_7865c18c58ee8b's payout is ₹6.57 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_9c8d0066c616f2",
@@ -5620,7 +5620,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_9c8d0066c616f2 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_9c8d0066c616f2 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_16041a5ecb54a9",
@@ -5632,7 +5632,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_16041a5ecb54a9 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_16041a5ecb54a9 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_2db497fba5a2b5",
@@ -5644,7 +5644,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_2db497fba5a2b5 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_2db497fba5a2b5 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_81f8b24abe4981",
@@ -5656,7 +5656,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_81f8b24abe4981 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_81f8b24abe4981 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_bf4550617b9122",
@@ -5665,10 +5665,10 @@
       "expected_link_ids": [
         "ord_dc3782eb341a"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_bf4550617b9122 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_bf4550617b9122's payout is ₹11.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_cd6c20a3454eee",
@@ -5677,10 +5677,10 @@
       "expected_link_ids": [
         "ord_f68d68174e25"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_cd6c20a3454eee settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_cd6c20a3454eee's payout is ₹33.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_aa05509c0c559d",
@@ -5689,10 +5689,10 @@
       "expected_link_ids": [
         "ord_5511870ba7c4"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_aa05509c0c559d settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_aa05509c0c559d's payout is ₹13.68 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_30ef0976e53cc8",
@@ -5704,7 +5704,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_30ef0976e53cc8 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_30ef0976e53cc8 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_4e6b161b9744c7",
@@ -5713,10 +5713,10 @@
       "expected_link_ids": [
         "ord_9bd20d62153a"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_4e6b161b9744c7 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_4e6b161b9744c7's payout is ₹6.60 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_2fce4e2cfaad66",
@@ -5728,7 +5728,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_2fce4e2cfaad66 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_2fce4e2cfaad66 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_096f9b5ec449f4",
@@ -5737,10 +5737,10 @@
       "expected_link_ids": [
         "ord_3c22756c3d36"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_096f9b5ec449f4 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_096f9b5ec449f4's payout is ₹126.18 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_a379764a22c0c3",
@@ -5749,10 +5749,10 @@
       "expected_link_ids": [
         "ord_db7ab52c1213"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_a379764a22c0c3 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_a379764a22c0c3's payout is ₹8.64 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_e42ec9dc8251e2",
@@ -5764,7 +5764,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_e42ec9dc8251e2 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_e42ec9dc8251e2 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_7f9fe1f24a5165",
@@ -5776,7 +5776,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_7f9fe1f24a5165 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_7f9fe1f24a5165 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_53af5324cdf936",
@@ -5785,10 +5785,10 @@
       "expected_link_ids": [
         "ord_18016141e37c"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_53af5324cdf936 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_53af5324cdf936's payout is ₹25.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_3a92f4f7d01e89",
@@ -5797,10 +5797,10 @@
       "expected_link_ids": [
         "ord_13cdaa0950cc"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_3a92f4f7d01e89 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_3a92f4f7d01e89's payout is ₹9.44 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_eca0eb026cc9cd",
@@ -5812,7 +5812,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_eca0eb026cc9cd settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_eca0eb026cc9cd settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_66e8830300b05c",
@@ -5821,10 +5821,10 @@
       "expected_link_ids": [
         "ord_76b3817411d8"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_66e8830300b05c settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_66e8830300b05c's payout is ₹15.29 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_44b8cbd51362e8",
@@ -5836,7 +5836,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_44b8cbd51362e8 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_44b8cbd51362e8 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_5bc17e43b4ca54",
@@ -5845,10 +5845,10 @@
       "expected_link_ids": [
         "ord_1ee88cc0f1af"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_5bc17e43b4ca54 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_5bc17e43b4ca54's payout is ₹16.19 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_f3b4c59cfc62cf",
@@ -5857,10 +5857,10 @@
       "expected_link_ids": [
         "ord_ddb6ff3b88c8"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_f3b4c59cfc62cf settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_f3b4c59cfc62cf's payout is ₹9.63 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_54a222e336c9c5",
@@ -5872,7 +5872,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_54a222e336c9c5 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_54a222e336c9c5 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_028dd1577e4dcb",
@@ -5881,10 +5881,10 @@
       "expected_link_ids": [
         "ord_1fa0cb1a9498"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_028dd1577e4dcb settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_028dd1577e4dcb's payout is ₹11.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_4d0e861351b1c9",
@@ -5893,10 +5893,10 @@
       "expected_link_ids": [
         "ord_2b327a2d1523"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_4d0e861351b1c9 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_4d0e861351b1c9's payout is ₹47.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_dcc66b94295dfa",
@@ -5905,10 +5905,10 @@
       "expected_link_ids": [
         "ord_c07e03fc510f"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_dcc66b94295dfa settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_dcc66b94295dfa's payout is ₹3.51 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_070bcc95e3b57a",
@@ -5920,7 +5920,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_070bcc95e3b57a settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_070bcc95e3b57a settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_b0d05ff747373a",
@@ -5932,7 +5932,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_b0d05ff747373a settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_b0d05ff747373a settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_2ee96a2e98a852",
@@ -5944,7 +5944,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_2ee96a2e98a852 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_2ee96a2e98a852 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_7ac934eff1d35c",
@@ -5956,7 +5956,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_7ac934eff1d35c settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_7ac934eff1d35c settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_0d6053108f9767",
@@ -5968,7 +5968,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_0d6053108f9767 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_0d6053108f9767 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_74426f5389b633",
@@ -5980,7 +5980,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_74426f5389b633 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_74426f5389b633 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_db90274dd3589c",
@@ -5992,7 +5992,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_db90274dd3589c settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_db90274dd3589c settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_14a7e15f359f03",
@@ -6001,10 +6001,10 @@
       "expected_link_ids": [
         "ord_e302461e277a"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_14a7e15f359f03 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_14a7e15f359f03's payout is ₹165.85 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_5ffc6a595aa615",
@@ -6013,10 +6013,10 @@
       "expected_link_ids": [
         "ord_667053e07ab9"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_5ffc6a595aa615 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_5ffc6a595aa615's payout is ₹277.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_9bdbd4fd7cae10",
@@ -6028,7 +6028,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_9bdbd4fd7cae10 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_9bdbd4fd7cae10 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_7083a26632eff2",
@@ -6037,10 +6037,10 @@
       "expected_link_ids": [
         "ord_dc099455b2cd"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_7083a26632eff2 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_7083a26632eff2's payout is ₹54.91 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_3c82956a63999e",
@@ -6052,7 +6052,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_3c82956a63999e settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_3c82956a63999e settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_c6e2fc1ef6f066",
@@ -6064,7 +6064,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_c6e2fc1ef6f066 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_c6e2fc1ef6f066 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_9837774c65f584",
@@ -6076,7 +6076,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_9837774c65f584 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_9837774c65f584 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_caa121a7dccb70",
@@ -6088,7 +6088,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_caa121a7dccb70 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_caa121a7dccb70 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_367f6af91e1ea4",
@@ -6097,10 +6097,10 @@
       "expected_link_ids": [
         "ord_7ff3fc097c59"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_367f6af91e1ea4 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_367f6af91e1ea4's payout is ₹25.06 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_e114d3296c3cd7",
@@ -6109,10 +6109,10 @@
       "expected_link_ids": [
         "ord_e31e2b0420b8"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_e114d3296c3cd7 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_e114d3296c3cd7's payout is ₹97.26 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_ba015140c001b7",
@@ -6124,7 +6124,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_ba015140c001b7 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_ba015140c001b7 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_fc82dd62cdd437",
@@ -6133,10 +6133,10 @@
       "expected_link_ids": [
         "ord_7fb6b8b2d696"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_fc82dd62cdd437 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_fc82dd62cdd437's payout is ₹159.20 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_377e107b6da205",
@@ -6145,10 +6145,10 @@
       "expected_link_ids": [
         "ord_6905c20287db"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_377e107b6da205 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_377e107b6da205's payout is ₹7.19 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_02867e42724a07",
@@ -6160,7 +6160,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_02867e42724a07 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_02867e42724a07 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_2f1450ae0d990a",
@@ -6169,10 +6169,10 @@
       "expected_link_ids": [
         "ord_ecf39808903b"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_2f1450ae0d990a settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_2f1450ae0d990a's payout is ₹155.78 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_7fcfe1a6aeb03c",
@@ -6181,10 +6181,10 @@
       "expected_link_ids": [
         "ord_f92b290226fc"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_7fcfe1a6aeb03c settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_7fcfe1a6aeb03c's payout is ₹19.79 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_70ccb82be57552",
@@ -6196,7 +6196,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_70ccb82be57552 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_70ccb82be57552 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_5367489b8c151e",
@@ -6208,7 +6208,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_5367489b8c151e settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_5367489b8c151e settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_ce92022c4aa704",
@@ -6220,7 +6220,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_ce92022c4aa704 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_ce92022c4aa704 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_f21c974046dc17",
@@ -6229,10 +6229,10 @@
       "expected_link_ids": [
         "ord_c93d8d4f69f9"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_f21c974046dc17 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_f21c974046dc17's payout is ₹20.12 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_98b8f55ed0fd65",
@@ -6241,10 +6241,10 @@
       "expected_link_ids": [
         "ord_61cc8af918eb"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_98b8f55ed0fd65 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_98b8f55ed0fd65's payout is ₹43.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_56a342c043e92a",
@@ -6256,7 +6256,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_56a342c043e92a settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_56a342c043e92a settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_efabbcaf56c93c",
@@ -6268,7 +6268,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_efabbcaf56c93c settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_efabbcaf56c93c settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_374e0a5a7172cc",
@@ -6277,10 +6277,10 @@
       "expected_link_ids": [
         "ord_145df0135219"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_374e0a5a7172cc settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_374e0a5a7172cc's payout is ₹41.97 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_c6797490153dba",
@@ -6289,10 +6289,10 @@
       "expected_link_ids": [
         "ord_8098ac57a964"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_c6797490153dba settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_c6797490153dba's payout is ₹423.68 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_78fc8e85abbff5",
@@ -6301,10 +6301,10 @@
       "expected_link_ids": [
         "ord_d2a54540f85a"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_78fc8e85abbff5 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_78fc8e85abbff5's payout is ₹67.76 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_8b27dc34511a1c",
@@ -6316,7 +6316,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_8b27dc34511a1c settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_8b27dc34511a1c settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_a9c06964f226a9",
@@ -6325,10 +6325,10 @@
       "expected_link_ids": [
         "ord_911687791411"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_a9c06964f226a9 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_a9c06964f226a9's payout is ₹181.18 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_ea66207c8e8d5c",
@@ -6340,7 +6340,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_ea66207c8e8d5c settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_ea66207c8e8d5c settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_f3bf2157a403b2",
@@ -6352,7 +6352,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_f3bf2157a403b2 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_f3bf2157a403b2 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_7388d33a6bcd74",
@@ -6364,7 +6364,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_7388d33a6bcd74 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_7388d33a6bcd74 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_4e178521a04c0f",
@@ -6376,7 +6376,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_4e178521a04c0f settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_4e178521a04c0f settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_a546171b05d225",
@@ -6385,10 +6385,10 @@
       "expected_link_ids": [
         "ord_d70c90765374"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_a546171b05d225 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_a546171b05d225's payout is ₹20.78 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_98f5142bb0c75f",
@@ -6397,10 +6397,10 @@
       "expected_link_ids": [
         "ord_89775546a2bb"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_98f5142bb0c75f settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_98f5142bb0c75f's payout is ₹62.49 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_5e77288fdf1361",
@@ -6412,7 +6412,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_5e77288fdf1361 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_5e77288fdf1361 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_c3f5edaee4bc53",
@@ -6424,7 +6424,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_c3f5edaee4bc53 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_c3f5edaee4bc53 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_a772a6ef2ccdc8",
@@ -6433,10 +6433,10 @@
       "expected_link_ids": [
         "ord_6310322a071c"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_a772a6ef2ccdc8 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_a772a6ef2ccdc8's payout is ₹45.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_4327601c43672a",
@@ -6448,7 +6448,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_4327601c43672a settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_4327601c43672a settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_6e91c3efe77232",
@@ -6457,10 +6457,10 @@
       "expected_link_ids": [
         "ord_8fb5f4c983f6"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_6e91c3efe77232 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_6e91c3efe77232's payout is ₹20.69 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_fd04e97a8d0d0e",
@@ -6472,7 +6472,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_fd04e97a8d0d0e settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_fd04e97a8d0d0e settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_4c597460ee3d11",
@@ -6481,10 +6481,10 @@
       "expected_link_ids": [
         "ord_bacec316a7ff"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_4c597460ee3d11 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_4c597460ee3d11's payout is ₹9.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_fbf6bdb0493e97",
@@ -6496,7 +6496,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_fbf6bdb0493e97 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_fbf6bdb0493e97 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_92f2c6a1df9be1",
@@ -6505,10 +6505,10 @@
       "expected_link_ids": [
         "ord_38f0afdb3e32"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_92f2c6a1df9be1 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_92f2c6a1df9be1's payout is ₹469.71 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_d72ad80da49f87",
@@ -6517,10 +6517,10 @@
       "expected_link_ids": [
         "ord_4059de52e32d"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_d72ad80da49f87 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_d72ad80da49f87's payout is ₹98.00 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_ec85fc8dc9068f",
@@ -6529,10 +6529,10 @@
       "expected_link_ids": [
         "ord_594e26b62d9b"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_ec85fc8dc9068f settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_ec85fc8dc9068f's payout is ₹6.75 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_2d24c6741bbb6f",
@@ -6544,7 +6544,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_2d24c6741bbb6f settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_2d24c6741bbb6f settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_ae6de436961fe8",
@@ -6556,7 +6556,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_ae6de436961fe8 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_ae6de436961fe8 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_7a36eca106a864",
@@ -6565,10 +6565,10 @@
       "expected_link_ids": [
         "ord_0c92b7f233b1"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_7a36eca106a864 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_7a36eca106a864's payout is ₹157.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_d6630c3d497867",
@@ -6577,10 +6577,10 @@
       "expected_link_ids": [
         "ord_64e1643d27c8"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_d6630c3d497867 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_d6630c3d497867's payout is ₹13.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_ea2cb1d5994656",
@@ -6589,10 +6589,10 @@
       "expected_link_ids": [
         "ord_554041ea9be7"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_ea2cb1d5994656 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_ea2cb1d5994656's payout is ₹27.80 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_880ddf67827af7",
@@ -6604,7 +6604,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_880ddf67827af7 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_880ddf67827af7 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_bea12af0313dd8",
@@ -6613,10 +6613,10 @@
       "expected_link_ids": [
         "ord_8cede2fc415e"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_bea12af0313dd8 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_bea12af0313dd8's payout is ₹199.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_75e50888b2d830",
@@ -6628,7 +6628,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_75e50888b2d830 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_75e50888b2d830 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_347d373757bb8a",
@@ -6637,10 +6637,10 @@
       "expected_link_ids": [
         "ord_469fd0bab6b9"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_347d373757bb8a settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_347d373757bb8a's payout is ₹59.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_167b50cdb2df8c",
@@ -6652,7 +6652,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_167b50cdb2df8c settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_167b50cdb2df8c settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_6a7b0a2fd9e69e",
@@ -6664,7 +6664,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_6a7b0a2fd9e69e settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_6a7b0a2fd9e69e settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_31fa5230da0af8",
@@ -6673,10 +6673,10 @@
       "expected_link_ids": [
         "ord_d6a073f6bf51"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_31fa5230da0af8 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_31fa5230da0af8's payout is ₹31.73 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_7273951dc635a0",
@@ -6685,10 +6685,10 @@
       "expected_link_ids": [
         "ord_f9ed341217f1"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_7273951dc635a0 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_7273951dc635a0's payout is ₹35.78 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_9a9a263b2a4aea",
@@ -6700,7 +6700,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_9a9a263b2a4aea settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_9a9a263b2a4aea settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_a5c8c0b2033db6",
@@ -6712,7 +6712,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_a5c8c0b2033db6 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_a5c8c0b2033db6 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_59e2d47b995bd2",
@@ -6724,7 +6724,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_59e2d47b995bd2 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_59e2d47b995bd2 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_083cfdff78ab79",
@@ -6736,7 +6736,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_083cfdff78ab79 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_083cfdff78ab79 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_bbab51214b0bca",
@@ -6745,10 +6745,10 @@
       "expected_link_ids": [
         "ord_40e030a8fb22"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_bbab51214b0bca settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_bbab51214b0bca's payout is ₹937.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_3ef22466d1cf46",
@@ -6760,7 +6760,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_3ef22466d1cf46 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_3ef22466d1cf46 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_95e0415efa745c",
@@ -6769,10 +6769,10 @@
       "expected_link_ids": [
         "ord_2d85f522e452"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_95e0415efa745c settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_95e0415efa745c's payout is ₹15.20 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_d7facd76ad24fa",
@@ -6781,10 +6781,10 @@
       "expected_link_ids": [
         "ord_6c99b59a3076"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_d7facd76ad24fa settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_d7facd76ad24fa's payout is ₹112.00 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_ea058154b3c065",
@@ -6796,7 +6796,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_ea058154b3c065 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_ea058154b3c065 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_d08a17ad1644d6",
@@ -6805,10 +6805,10 @@
       "expected_link_ids": [
         "ord_88b7485f048e"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_d08a17ad1644d6 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_d08a17ad1644d6's payout is ₹38.16 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_3357229e5a907b",
@@ -6820,7 +6820,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_3357229e5a907b settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_3357229e5a907b settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_adf610322a4efd",
@@ -6832,7 +6832,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_adf610322a4efd settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_adf610322a4efd settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_c93286c4d54c46",
@@ -6841,10 +6841,10 @@
       "expected_link_ids": [
         "ord_f872a626bc3f"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_c93286c4d54c46 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_c93286c4d54c46's payout is ₹43.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_fffd8a4507f514",
@@ -6856,7 +6856,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_fffd8a4507f514 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_fffd8a4507f514 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_d235a50a0558d1",
@@ -6865,10 +6865,10 @@
       "expected_link_ids": [
         "ord_8aab7c2cdae9"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_d235a50a0558d1 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_d235a50a0558d1's payout is ₹80.64 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_6b0bbf01ac1ec2",
@@ -6877,10 +6877,10 @@
       "expected_link_ids": [
         "ord_01be5a51a678"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_6b0bbf01ac1ec2 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_6b0bbf01ac1ec2's payout is ₹20.70 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_3c588da57e29b6",
@@ -6889,10 +6889,10 @@
       "expected_link_ids": [
         "ord_a04c25262246"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_3c588da57e29b6 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_3c588da57e29b6's payout is ₹22.31 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_d8fefe9bc12b7c",
@@ -6901,10 +6901,10 @@
       "expected_link_ids": [
         "ord_6dca2b497483"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_d8fefe9bc12b7c settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_d8fefe9bc12b7c's payout is ₹34.39 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_c130d61da2d064",
@@ -6916,7 +6916,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_c130d61da2d064 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_c130d61da2d064 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_05aede67fbdad1",
@@ -6925,10 +6925,10 @@
       "expected_link_ids": [
         "ord_a1acb2ced634"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_05aede67fbdad1 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_05aede67fbdad1's payout is ₹18.38 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_421abf8c6aa31b",
@@ -6940,7 +6940,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_421abf8c6aa31b settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_421abf8c6aa31b settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_ab5ff7c2a69f1e",
@@ -6952,7 +6952,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_ab5ff7c2a69f1e settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_ab5ff7c2a69f1e settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_1cd6e59727a5e0",
@@ -6961,10 +6961,10 @@
       "expected_link_ids": [
         "ord_1c6f5ae05ef5"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_1cd6e59727a5e0 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_1cd6e59727a5e0's payout is ₹38.38 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_c28b972567d5aa",
@@ -6976,7 +6976,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_c28b972567d5aa settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_c28b972567d5aa settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_80877e8d2d5c6f",
@@ -6985,10 +6985,10 @@
       "expected_link_ids": [
         "ord_e02a31bf63a3"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_80877e8d2d5c6f settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_80877e8d2d5c6f's payout is ₹510.58 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_222e49fa308145",
@@ -6997,10 +6997,10 @@
       "expected_link_ids": [
         "ord_a7b8a7e71d21"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_222e49fa308145 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_222e49fa308145's payout is ₹156.75 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_88c3c8298d2530",
@@ -7012,7 +7012,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_88c3c8298d2530 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_88c3c8298d2530 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_b026b0489a5071",
@@ -7024,7 +7024,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_b026b0489a5071 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_b026b0489a5071 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_cdfbbfd1a2ccaa",
@@ -7033,10 +7033,10 @@
       "expected_link_ids": [
         "ord_a498a03a406a"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_cdfbbfd1a2ccaa settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_cdfbbfd1a2ccaa's payout is ₹43.51 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_e857d2ab12e147",
@@ -7045,10 +7045,10 @@
       "expected_link_ids": [
         "ord_a02866c61b50"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_e857d2ab12e147 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_e857d2ab12e147's payout is ₹37.88 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_fc5b4c1aef4091",
@@ -7057,10 +7057,10 @@
       "expected_link_ids": [
         "ord_1b8f6fec3ce0"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_fc5b4c1aef4091 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_fc5b4c1aef4091's payout is ₹178.98 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_46a2e296711db0",
@@ -7069,10 +7069,10 @@
       "expected_link_ids": [
         "ord_d882d8a182c0"
       ],
-      "expected_class": "MATCHED_EXACT",
+      "expected_class": "FEE_DEDUCTION",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_46a2e296711db0 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_46a2e296711db0's payout is ₹36.08 lower than gross, matching the contracted rate."
     },
     {
       "record_id": "pay_35f6b99efd7814",
@@ -7084,7 +7084,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_35f6b99efd7814 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_35f6b99efd7814 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_2394598d147e40",
@@ -7096,7 +7096,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_2394598d147e40 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_2394598d147e40 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "pay_ac255134dae613",
@@ -7108,7 +7108,7 @@
       "expected_class": "MATCHED_EXACT",
       "expected_decision": "AUTO_RESOLVED",
       "is_resolvable": true,
-      "expected_reason": "Payment pay_ac255134dae613 settled with fees and GST exactly as the rate card predicts."
+      "expected_reason": "Payment pay_ac255134dae613 settled with no fee (UPI), exactly as expected."
     },
     {
       "record_id": "bank_0005",
