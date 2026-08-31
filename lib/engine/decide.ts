@@ -8,6 +8,8 @@
 // NEEDS_REVIEW or UNRESOLVED on confidence alone — it simply has no path to
 // AUTO_RESOLVED, however high its confidence climbs.
 
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import type { Decision, ExceptionClass } from '../types';
 
 export type { Decision };
@@ -18,16 +20,45 @@ export interface DecisionThresholds {
 }
 
 /**
- * TODO(prompt 11): these are placeholders. The real values come from
- * `scripts/sweepThresholds.ts`'s experiment on the main batch (section 12:
- * lowest t_auto with ≤0.5% false-match rate; highest t_review with ≥90%
- * correct-refusal rate) and get frozen in `runs.config`. Do not tune these
- * by hand in the meantime.
+ * Placeholders only — used before `scripts/sweepThresholds.ts` has ever
+ * run, so the engine still produces a complete reconciliation on a fresh
+ * clone. The real, frozen values come from that script's experiment on
+ * the main batch (section 12: lowest t_auto with ≤0.5% false-match rate;
+ * highest t_review, within [0.30, t_auto], with ≥90% correct-refusal
+ * rate) and are read from `config/thresholds.json` below. Never tune
+ * these placeholders by hand — re-run the sweep instead.
  */
-export const DEFAULT_THRESHOLDS: DecisionThresholds = {
+const PLACEHOLDER_THRESHOLDS: DecisionThresholds = {
   t_auto: 0.9,
   t_review: 0.5,
 };
+
+/**
+ * Read once, at module load — the same synchronous, load-once pattern
+ * lib/env.ts uses for .env.local. Falls back to the placeholders above if
+ * config/thresholds.json doesn't exist yet (before the first sweep run)
+ * or is malformed; never throws for a missing file, since that would
+ * block the engine from running at all on a fresh clone.
+ */
+function loadThresholds(): DecisionThresholds {
+  try {
+    const raw = readFileSync(join(process.cwd(), 'config', 'thresholds.json'), 'utf8');
+    const parsed: unknown = JSON.parse(raw);
+    if (
+      typeof parsed === 'object' &&
+      parsed !== null &&
+      typeof (parsed as { t_auto?: unknown }).t_auto === 'number' &&
+      typeof (parsed as { t_review?: unknown }).t_review === 'number'
+    ) {
+      return { t_auto: (parsed as { t_auto: number }).t_auto, t_review: (parsed as { t_review: number }).t_review };
+    }
+  } catch {
+    // Not present yet, or unreadable — fall through to the placeholders.
+  }
+  return PLACEHOLDER_THRESHOLDS;
+}
+
+export const DEFAULT_THRESHOLDS: DecisionThresholds = loadThresholds();
 
 /**
  * Section 11's "Auto-resolve?" column, Yes rows only. Everything absent
