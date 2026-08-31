@@ -1759,11 +1759,30 @@ function injectAnomalies(
   logTdsCases(batch, log);
   logOpaqueAdjustmentCases(batch, log);
 
+  // Settlement-total-changing, line-level mutations. ALL FOUR of these
+  // must run before the bank statement is generated below: each one moves
+  // a payment between settlements, or changes a line's own fee/amount,
+  // which changes settlement.amount_paise. None of them touch
+  // batch.bankLines at all — a bank line built from a settlement's amount
+  // BEFORE one of these ran would go permanently stale the moment it did,
+  // with nothing left to notice or repair it (FAILURES.md, 2026-08-30,
+  // "line-moving injectors generate stale bank lines" — this reorder is
+  // that entry's fix).
+  injectTimingDifference(rng, batch, claimedLineIds, log, counts.timingDifference);
+  injectPartialSettlement(profile, rng, batch, claimedLineIds, log, counts.partialSettlement);
+  injectFeeOvercharge(profile, rng, batch, claimedLineIds, claimedSettlementIds, log, counts.feeOvercharge);
+  injectAmbiguousMatch(profile, rng, batch, claimedLineIds, claimedSettlementIds, log, counts.ambiguousMatchPairs);
+
+  // Generate the bank statement now, for the first and only time — every
+  // settlement amount above is final, so every settlement's initial bank
+  // credit is correct by construction. Everything below this line only
+  // reads and rebuilds from batch.bankLines (via findBankLineForSettlement,
+  // keyed on UTR, not amount); nothing above this line may run after it.
+  batch.bankLines.push(...generateBankLines(profile, rng, batch.settlements));
+
   // Matching-layer mutations. Settlement-line-level cases log immediately
   // (their record_id is a stable entity_id); bank-level cases defer to
   // pendingBankLog until finalizeBankStatement fixes line_no.
-  injectTimingDifference(rng, batch, claimedLineIds, log, counts.timingDifference);
-  injectPartialSettlement(profile, rng, batch, claimedLineIds, log, counts.partialSettlement);
   injectSplitPayout(profile, rng, batch, claimedSettlementIds, pendingBankLog, counts.splitPayout);
   injectAggregatedCredit(profile, rng, batch, claimedSettlementIds, pendingBankLog, counts.aggregatedCreditPairs);
   injectDuplicateCredit(rng, batch, claimedSettlementIds, pendingBankLog, counts.duplicateCredit);
@@ -1777,11 +1796,11 @@ function injectAnomalies(
 
   // Detection-layer mutations, including the other two genuinely
   // unresolvable cases (8, 13) that give the project its honest
-  // exception list.
+  // exception list. rounding_residual specifically must stay here, after
+  // the bank statement already exists — its whole point is a settlement
+  // header that drifts 1-99 paise from an otherwise-untouched bank credit.
   injectMissingInBank(batch, claimedSettlementIds, log, counts.missingInBank);
   injectRoundingResidual(rng, batch, claimedSettlementIds, log, counts.roundingResidual);
-  injectFeeOvercharge(profile, rng, batch, claimedLineIds, claimedSettlementIds, log, counts.feeOvercharge);
-  injectAmbiguousMatch(profile, rng, batch, claimedLineIds, claimedSettlementIds, log, counts.ambiguousMatchPairs);
 
   finalizeBankStatement(batch.bankLines);
   for (const { bankLine, entry } of pendingBankLog) {
@@ -1807,9 +1826,11 @@ function generateBatch(profile: MerchantProfile, seed: number): GeneratedBatch {
   generateDisputes(profile, rng, orders, lines);
   generateAdjustments(profile, rng, lines);
   const settlements = batchIntoSettlements(profile, rng, lines);
-  const bankLines = generateBankLines(profile, rng, settlements);
 
-  const records: GeneratedRecords = { orders, lines, settlements, bankLines };
+  // bankLines starts empty — injectAnomalies generates it partway through,
+  // only after every settlement-total-changing mutation has run. See the
+  // comment at that call site for why.
+  const records: GeneratedRecords = { orders, lines, settlements, bankLines: [] };
   const groundTruthLog = injectAnomalies(profile, rng, records);
 
   return { ...records, groundTruthLog };
