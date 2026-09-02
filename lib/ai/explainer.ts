@@ -8,17 +8,21 @@
 // are both written once, by pass6b-compose.ts, and never recomputed here —
 // this file only reads and formats them.
 //
-// The number guard (section 14, prompt 14) is NOT wired in yet — that
-// prompt explicitly owns lib/ai/explainer.ts's next edit, adding the
-// allowlist check between the LLM's response and what gets persisted.
-// Today, `ai_status` can only come back 'ok' or 'error'; 'rejected_by_guard'
-// is prompt 14's to add.
+// The number guard (section 14) sits between the LLM's response and what
+// gets persisted: `checkNumberGuard` walks this same evidence bundle for
+// its allowlist, so a hallucinated number is rejected before it ever
+// reaches `ai_explanation` — `rejected_by_guard` leaves that column null
+// and the UI falls back to `deterministic_reason`, same as the plain
+// `'error'` case. llm_calls logging (guard_result, rejected_tokens) is
+// still deferred — see FAILURES.md — but `rejectedTokens` is returned
+// here so whatever wires that logging in later has the data already.
 
 import { sql } from '../db';
 import { formatPaise } from '../money';
 import { formatISTDate } from '../dates';
 import { callLlm, type LlmToolSchema } from './client';
 import { EXPLAINER_SYSTEM_PROMPT } from './prompts';
+import { checkNumberGuard } from './numberGuard';
 
 const WRITE_EXPLANATION_TOOL: LlmToolSchema = {
   name: 'write_explanation',
@@ -87,7 +91,9 @@ export interface EvidenceBundle {
 
 export interface ExplainResult {
   explanation: string | null;
-  status: 'ok' | 'error';
+  status: 'ok' | 'error' | 'rejected_by_guard';
+  /** Tokens the number guard rejected — empty unless status is 'rejected_by_guard'. */
+  rejectedTokens: string[];
 }
 
 /**
@@ -291,13 +297,18 @@ export async function explainException(exceptionId: string): Promise<ExplainResu
   });
 
   if (!call.ok || call.output === null) {
-    return { explanation: null, status: 'error' };
+    return { explanation: null, status: 'error', rejectedTokens: [] };
   }
 
   const explanation = call.output.explanation;
   if (typeof explanation !== 'string' || explanation.trim().length === 0) {
-    return { explanation: null, status: 'error' };
+    return { explanation: null, status: 'error', rejectedTokens: [] };
   }
 
-  return { explanation, status: 'ok' };
+  const guard = checkNumberGuard(explanation, bundle);
+  if (!guard.pass) {
+    return { explanation: null, status: 'rejected_by_guard', rejectedTokens: guard.rejectedTokens };
+  }
+
+  return { explanation, status: 'ok', rejectedTokens: [] };
 }
