@@ -26,6 +26,7 @@ import {
   validateSettlementRow,
 } from './validate';
 import { extractUtr, type ParseSource } from './narration';
+import { parseNarrationWithLlm } from '../ai/narrationParser';
 
 export { validateColumns } from './validate';
 export { extractUtr } from './narration';
@@ -43,10 +44,19 @@ export interface NormalizedSettlementLine extends SettlementLine {
   settlement_cycle_date: Date | null; // set only for type === 'payment'
 }
 
-/** BankLine plus the UTR extraction result Pass 0 attaches. */
+/**
+ * regex/pending_llm come from Pass 0's own extraction (lib/normalize/narration.ts);
+ * llm/failed are added on top by resolvePendingLlmBankLines below, once the
+ * LLM layer (prompt 12) has had a chance to resolve a 'pending_llm' line —
+ * a wider type here, not a change to narration.ts's own ParseSource, since
+ * that file only knows what regex-only extraction can determine.
+ */
+export type BankLineParseSource = ParseSource | 'llm' | 'failed';
+
+/** BankLine plus the UTR extraction result Pass 0 (and, for pending_llm lines, the LLM layer) attaches. */
 export interface NormalizedBankLine extends BankLine {
   parsed_utr: string | null;
-  parse_source: ParseSource;
+  parse_source: BankLineParseSource;
 }
 
 /**
@@ -268,4 +278,38 @@ export function normalizeBankLines(
   }
 
   return { bankLines, invalidRows };
+}
+
+// ---------------------------------------------------------------------------
+// LLM enrichment — job 1 (SETL_BLUEPRINT.md section 13), wired into the
+// normalization layer as the prompt asks, but kept as a SEPARATE async
+// function rather than folded into normalizeBankLines above. That function
+// stays synchronous and unchanged: lib/engine/run.ts calls extractUtr
+// directly (not normalizeBankLines) and must stay a pure, synchronous
+// core, and scripts/sweepThresholds.ts calls normalizeBankLines
+// synchronously too. Only a caller that explicitly wants LLM enrichment —
+// today, scripts/evaluate.ts — awaits this.
+// ---------------------------------------------------------------------------
+
+/**
+ * For every bank line Pass 0 marked 'pending_llm', attempt the LLM parse
+ * and its mandatory post-validation (lib/ai/narrationParser.ts); every
+ * other line passes through untouched. A no-op per line when
+ * LLM_ENABLED=false (lib/ai/client.ts's own hard switch) — this function
+ * is always safe to call.
+ */
+export async function resolvePendingLlmBankLines(
+  bankLines: readonly NormalizedBankLine[],
+  knownUtrs: readonly string[]
+): Promise<NormalizedBankLine[]> {
+  const resolved: NormalizedBankLine[] = [];
+  for (const line of bankLines) {
+    if (line.parse_source !== 'pending_llm') {
+      resolved.push(line);
+      continue;
+    }
+    const result = await parseNarrationWithLlm(line.narration, knownUtrs);
+    resolved.push({ ...line, parsed_utr: result.utr, parse_source: result.parse_source });
+  }
+  return resolved;
 }

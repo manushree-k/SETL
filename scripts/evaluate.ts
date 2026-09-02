@@ -9,6 +9,17 @@
 // ground_truth.json. No database, no LLM API key, no seed/migrate step —
 // per the blueprint, a judge must be able to clone the repo and reproduce
 // these numbers with nothing but `npm install`.
+//
+// Prompt 12 addendum: also calls resolvePendingLlmBankLines (lib/normalize)
+// for job 1's narration-parsing ablation — LLM_ENABLED=true vs. false
+// should move parse rate, not match rate. This is the one deviation from
+// this script's original file scope (prompt 10 listed only lib/metrics/*
+// and this file; prompt 12 lists lib/ai/* and lib/normalize/index.ts, not
+// this one) — made explicitly, with sign-off, because otherwise prompt
+// 12's own acceptance test ("LLM_ENABLED=true npm run evaluate" vs.
+// "=false") has no script that could ever exercise it. The function is a
+// complete no-op when LLM_ENABLED=false, so the "no LLM API key" guarantee
+// above is unaffected either way.
 
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
@@ -18,6 +29,7 @@ import {
   normalizeSettlements,
   normalizeSettlementLines,
   normalizeBankLines,
+  resolvePendingLlmBankLines,
 } from '../lib/normalize';
 import { reconcile } from '../lib/engine/run';
 import { KIRANAKART_RATE_CARD, BOMBAYWEAVE_RATE_CARD } from '../lib/rateCard';
@@ -112,7 +124,7 @@ function readCsv(path: string): { headers: string[]; rows: Record<string, string
 // Per-batch evaluation
 // ---------------------------------------------------------------------------
 
-function evaluateBatch(batch: Batch): BatchMetrics {
+async function evaluateBatch(batch: Batch): Promise<BatchMetrics> {
   const dir = join(process.cwd(), 'data', batch);
 
   const orderCsv = readCsv(join(dir, 'orders.csv'));
@@ -129,7 +141,14 @@ function evaluateBatch(batch: Batch): BatchMetrics {
     settlementLineCsv.headers,
     settlementLineCsv.rows
   );
-  const { bankLines, invalidRows: invalidBankLines } = normalizeBankLines(bankLineCsv.headers, bankLineCsv.rows);
+  const { bankLines: rawBankLines, invalidRows: invalidBankLines } = normalizeBankLines(
+    bankLineCsv.headers,
+    bankLineCsv.rows
+  );
+
+  // Job 1's ablation point: a no-op per line when LLM_ENABLED=false.
+  const knownUtrs = settlements.map((s) => s.utr_number);
+  const bankLines = await resolvePendingLlmBankLines(rawBankLines, knownUtrs);
 
   const invalidTotal =
     invalidOrders.length + invalidSettlements.length + invalidLines.length + invalidBankLines.length;
@@ -170,17 +189,17 @@ function summarize(metrics: BatchMetrics): string {
   );
 }
 
-function main(): void {
+async function main(): Promise<void> {
   const resultsDir = join(process.cwd(), 'data', 'results');
   mkdirSync(resultsDir, { recursive: true });
 
   console.log('Evaluating batch: main ...');
-  const mainMetrics = evaluateBatch('main');
+  const mainMetrics = await evaluateBatch('main');
   writeFileSync(join(resultsDir, 'metrics-main.json'), JSON.stringify(mainMetrics, null, 2));
   console.log(`  ${summarize(mainMetrics)}`);
 
   console.log('Evaluating batch: holdout ...');
-  const holdoutMetrics = evaluateBatch('holdout');
+  const holdoutMetrics = await evaluateBatch('holdout');
   writeFileSync(join(resultsDir, 'metrics-holdout.json'), JSON.stringify(holdoutMetrics, null, 2));
   console.log(`  ${summarize(holdoutMetrics)}`);
 
@@ -191,10 +210,8 @@ function main(): void {
   );
 }
 
-try {
-  main();
-} catch (error: unknown) {
+main().catch((error: unknown) => {
   const message = error instanceof Error ? error.message : String(error);
   console.error(`Evaluation failed: ${message}`);
   process.exit(1);
-}
+});
