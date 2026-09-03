@@ -8,3 +8,5 @@ node_modules
 data/results/
 next-env.d.ts
 *.tsbuildinfo
+.vercel
+.env*
