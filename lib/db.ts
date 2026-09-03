@@ -21,14 +21,17 @@ const globalForDb = globalThis as unknown as {
 };
 
 function createClient() {
+  const isPooled = env.DATABASE_URL.includes("-pooler.") || env.DATABASE_URL.includes("pooler");
   return postgres(env.DATABASE_URL, {
     // Neon's free tier sleeps. A cold connection needs room to wake up,
     // but not so much that a Vercel function sits until it is killed.
-    connect_timeout: 10,
+    connect_timeout: 15,
     // Serverless functions are short-lived and numerous; a small pool per
     // instance avoids exhausting Neon's connection limit. Hobby/free: keep 1.
     max: 1,
-    idle_timeout: 10,
+    idle_timeout: 20,
+    // Neon pooler (pgbouncer) requires prepare:false, otherwise transaction mode fails
+    prepare: isPooled ? false : true,
     // Amounts are BIGINT paise. postgres.js would hand these back as
     // strings to avoid precision loss, but every amount in this system is
     // well inside 2^53, so we parse INT8 (oid 20) to a JS number and
