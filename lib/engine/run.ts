@@ -503,6 +503,13 @@ export async function runReconciliation(batch: Batch): Promise<RunReconciliation
 
     console.log(`[run:${runId}] begin tx for ${batch} — ${bankLines.length} bank, ${result.links.length} links, ${result.exceptions.length} exc`);
     await sql.begin(async (tx) => {
+      // Idempotency: re-running same run_id (e.g. double POST) must not hit PK duplicate
+      console.log(`[run:${runId}] clearing previous results for idempotency`);
+      await tx`DELETE FROM links WHERE run_id = ${runId}`;
+      await tx`DELETE FROM exceptions WHERE run_id = ${runId}`;
+      await tx`DELETE FROM audit_log WHERE run_id = ${runId}`;
+      await tx`DELETE FROM settlement_composition WHERE run_id = ${runId}`;
+      console.log(`[run:${runId}] cleared`);
       console.log(`[run:${runId}] tx start — updating ${bankLines.length} bank_lines`);
       if (bankLines.length > 0) {
         const bankData = bankLines.map(b => ({ line_no: b.line_no, parsed_utr: b.parsed_utr, parse_source: b.parse_source }));
