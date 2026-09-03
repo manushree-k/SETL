@@ -504,18 +504,14 @@ export async function runReconciliation(batch: Batch): Promise<RunReconciliation
     console.log(`[run:${runId}] begin tx for ${batch} — ${bankLines.length} bank, ${result.links.length} links, ${result.exceptions.length} exc`);
     await sql.begin(async (tx) => {
       console.log(`[run:${runId}] tx start — updating ${bankLines.length} bank_lines`);
-      // Bulk update bank_lines via single statement (was N+1, now 1 — critical for Neon WAN)
       if (bankLines.length > 0) {
-        // Use json_to_recordset for safe bulk without string concat
         const bankData = bankLines.map(b => ({ line_no: b.line_no, parsed_utr: b.parsed_utr, parse_source: b.parse_source }));
         await tx`
           UPDATE bank_lines AS bl
-          SET parsed_utr = v.parsed_utr::text, parse_source = v.parse_source::text
-          FROM (
-            SELECT * FROM json_to_recordset(${JSON.stringify(bankData)}::json)
+          SET parsed_utr = x.parsed_utr, parse_source = x.parse_source
+          FROM json_to_recordset(${tx.json(bankData as unknown as postgres.JSONValue)}::json)
             AS x(line_no int, parsed_utr text, parse_source text)
-          ) AS v
-          WHERE bl.run_id = ${runId} AND bl.line_no = v.line_no
+          WHERE bl.run_id = ${runId} AND bl.line_no = x.line_no
         `;
         console.log(`[run:${runId}] bank_lines updated`);
       }
@@ -674,14 +670,10 @@ export async function runReconciliation(batch: Batch): Promise<RunReconciliation
         }));
         await tx`
           UPDATE settlement_lines AS sl
-          SET contribution = v.contribution::bigint,
-              contribution_bucket = v.bucket::text,
-              contribution_reason = v.reason::text
-          FROM (
-            SELECT * FROM json_to_recordset(${JSON.stringify(contribData)}::json)
+          SET contribution = x.contribution, contribution_bucket = x.bucket, contribution_reason = x.reason
+          FROM json_to_recordset(${tx.json(contribData as unknown as postgres.JSONValue)}::json)
             AS x(entity_id text, contribution bigint, bucket text, reason text)
-          ) AS v
-          WHERE sl.run_id = ${runId} AND sl.entity_id = v.entity_id
+          WHERE sl.run_id = ${runId} AND sl.entity_id = x.entity_id
         `;
         console.log(`[run:${runId}] contributions updated`);
       }
