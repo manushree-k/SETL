@@ -37,49 +37,61 @@ export function SettlementBreakdown({ data, highlightComponent }: { data: Settle
   const bank = pickPaise(data, 'bank_credit_total_paise', 'bank_credit_total');
   const diff = pickPaise(data, 'diff_total_paise', 'diff_total');
 
-  const rows: { label: string; value: number | null; component: string; isDiff?: boolean }[] = [
+  const rows: { label: string; value: number | null; component: string; note?: string }[] = [
     { label: "Gross payments", value: gross, component: "GROSS" },
-    { label: "− Fees (MDR)", value: fees !== null ? -fees : null, component: "FEES" },
-    { label: "− GST on fees", value: gst !== null ? -gst : null, component: "GST" },
-    { label: "− Refunds", value: refunds !== null ? -refunds : null, component: "REFUNDS" },
-    { label: "− Disputes / holds", value: disputes !== null ? -disputes : null, component: "DISPUTES" },
-    { label: "± Adjustments (net)", value: adjustments, component: "ADJUSTMENTS" },
+    { label: "Razorpay fees", value: fees !== null ? -fees : null, component: "FEES", note: "MDR" },
+    { label: "GST on fees", value: gst !== null ? -gst : null, component: "GST", note: "18%" },
+    { label: "Refunds", value: refunds !== null ? -refunds : null, component: "REFUNDS" },
+    { label: "Disputes / holds", value: disputes !== null ? -disputes : null, component: "DISPUTES" },
+    { label: "Adjustments", value: adjustments, component: "ADJUSTMENTS", note: "net" },
   ];
 
   const isHighlighted = (c: string) => highlightComponent && highlightComponent !== 'NONE' && highlightComponent === c;
 
   return (
-    <div className="rounded-lg border bg-card p-4 font-mono text-sm">
-      <div className="space-y-1.5">
-        {rows.map((r) => (
-          <div key={r.label} className={`flex justify-between py-0.5 px-2 rounded ${isHighlighted(r.component) ? "bg-red-50 border border-red-200 text-red-900" : ""}`}>
-            <span className="text-muted-foreground">{r.label}</span>
-            <MoneyCell paise={r.value} className="font-medium" />
+    <div className="rounded-xl border bg-card overflow-hidden">
+      <div className="px-4 py-3 border-b bg-muted/20 flex items-center justify-between">
+        <span className="text-[11px] tracking-[0.12em] uppercase font-medium text-muted-foreground">Composition ladder</span>
+        <span className="text-xs font-mono text-muted-foreground">{data.payment_count ?? "—"} payments · {data.refund_count ?? "—"} refunds</span>
+      </div>
+      <div className="p-4 font-mono text-sm">
+        <div className="space-y-0">
+          {rows.map((r) => (
+            <div key={r.label} className={`flex justify-between items-center py-2 px-3 -mx-1 rounded-lg border border-transparent ${isHighlighted(r.component) ? "!bg-red-50 !border-red-200 !text-red-900" : "hover:bg-muted/40"}`}>
+              <span className="flex items-center gap-2 text-[13px]">
+                <span className="text-muted-foreground">{r.label}</span>
+                {r.note && <span className="text-[10px] px-1.5 py-0.5 rounded bg-muted text-muted-foreground">{r.note}</span>}
+              </span>
+              <MoneyCell paise={r.value} className="text-sm font-medium" />
+            </div>
+          ))}
+          <div className="my-3 border-t border-dashed" />
+          <div className="flex justify-between items-center py-2.5 px-3 rounded-lg bg-[var(--foreground)] text-[var(--background)]">
+            <span className="text-sm font-medium tracking-tight">Expected payout</span>
+            <MoneyCell paise={expected} className="text-white font-semibold" />
           </div>
-        ))}
-        <div className="border-t my-2" />
-        <div className="flex justify-between py-1 px-2 font-semibold">
-          <span>Expected payout</span>
-          <MoneyCell paise={expected} />
-        </div>
-        <div className="flex justify-between py-1 px-2 text-xs">
-          <span className="text-muted-foreground">Header (Razorpay)</span>
-          <MoneyCell paise={header} className="text-xs" />
-        </div>
-        <div className={`flex justify-between py-1 px-2 text-xs ${isHighlighted("BANK_CREDIT") ? "bg-red-50 border border-red-200 rounded" : ""}`}>
-          <span className="text-muted-foreground">Bank received</span>
-          <MoneyCell paise={bank} className="text-xs" />
-        </div>
-        <div className={`flex justify-between py-2 px-2 rounded font-bold border-t mt-2 ${diff === 0 ? "bg-green-50 border-green-200 text-green-800" : diff !== null && diff !== 0 ? "bg-amber-50 border-amber-200" : ""}`}>
-          <span>Difference</span>
-          <MoneyCell paise={diff} />
-        </div>
-        {data.discrepancy_component && data.discrepancy_component !== 'NONE' && (
-          <div className="text-xs text-center text-muted-foreground mt-1">
-            Component: <span className="font-semibold text-foreground">{data.discrepancy_component}</span> {data.status && `· ${data.status.replace(/_/g, " ")}`}
+          <div className="flex justify-between items-center py-2 px-3 text-xs mt-1">
+            <span className="text-muted-foreground">Header (Razorpay)</span>
+            <MoneyCell paise={header} className="text-xs" />
           </div>
-        )}
-        {data.status === 'FULLY_RECONCILED' && <div className="text-xs text-center text-green-700 mt-1">✓ FULLY_RECONCILED</div>}
+          <div className={`flex justify-between items-center py-2 px-3 rounded-lg text-xs ${isHighlighted("BANK_CREDIT") ? "bg-red-50 border border-red-200" : "bg-muted/30 border border-transparent"}`}>
+            <span className="text-muted-foreground">Bank received</span>
+            <MoneyCell paise={bank} className="text-xs font-medium" />
+          </div>
+          <div className={`flex justify-between items-center py-3 px-3 rounded-xl font-bold mt-3 border-2 ${diff === 0 ? "bg-emerald-50 border-emerald-200 text-emerald-900" : diff !== null && diff !== 0 ? "bg-amber-50 border-amber-200 text-amber-900" : "bg-card"}`}>
+            <span className="flex items-center gap-2 text-sm"><span className="w-2 h-2 rounded-full bg-current" /> Difference</span>
+            <MoneyCell paise={diff} className={diff === 0 ? "text-emerald-900" : "text-amber-900"} />
+          </div>
+          <div className="text-center mt-3">
+            {data.discrepancy_component && data.discrepancy_component !== 'NONE' ? (
+              <span className="inline-flex items-center gap-2 text-xs px-3 py-1 rounded-full bg-red-50 border border-red-200 text-red-800">
+                <span className="w-1.5 h-1.5 rounded-full bg-red-600" /> {data.discrepancy_component} · {data.status?.replace(/_/g, " ")}
+              </span>
+            ) : data.status === 'FULLY_RECONCILED' ? (
+              <span className="inline-flex items-center gap-1.5 text-xs px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800">✓ FULLY_RECONCILED</span>
+            ) : null}
+          </div>
+        </div>
       </div>
     </div>
   );

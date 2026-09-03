@@ -1,15 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --muted: #f4f4f5;
-  --muted-foreground: #71717a;
-  --border: #e4e4e7;
-  --primary: #18181b;
-  --ring: #18181b;
-  --card: #ffffff;
-  --break: #dc2626;
+  --background: #FFFBF5;
+  --foreground: #0A0A0B;
+  --muted: #F2EDE6;
+  --muted-foreground: #78716C;
+  --border: #E7DDD3;
+  --primary: #0A0A0B;
+  --primary-foreground: #FFFBF5;
+  --ring: #0A0A0B;
+  --card: #FFFFFF;
+  --card-foreground: #0A0A0B;
+  --break: #DC2626;
+  --success: #059669;
+  --amber: #D97706;
 }
 
 @theme inline {
@@ -19,28 +23,36 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
   --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
   --color-ring: var(--ring);
   --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
   --color-break: var(--break);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-display: var(--font-display);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --muted: #27272a;
-    --muted-foreground: #a1a1aa;
-    --border: #27272a;
-    --primary: #fafafa;
-    --ring: #fafafa;
-    --card: #18181b;
-  }
-}
+* { border-color: var(--border); }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
+
+/* Subtle dot grid + grain */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(10,10,11,0.04) 1px, transparent 0);
+  background-size: 24px 24px;
+  mask-image: radial-gradient(ellipse at center, black 60%, transparent 85%);
+}
+
+/* Mono numbers should always be tabular */
+.font-mono { font-variant-numeric: tabular-nums; }
