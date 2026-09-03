@@ -251,6 +251,27 @@ export function reconcile(input: ReconcileInput): ReconcileOutput {
   }
 
   // --- Settlement lines ---------------------------------------------------------
+  // Pre-compute PARTIAL_SETTLEMENT halves: order_id appears in >=2 lines
+  // and their combined amount reconstructs the order's full amount.
+  const partialHalfIds = new Set<string>();
+  const linesByOrderId = new Map<string, NormalizedSettlementLine[]>();
+  for (const l of input.settlementLines) {
+    if (l.order_id) {
+      const arr = linesByOrderId.get(l.order_id) ?? [];
+      arr.push(l as NormalizedSettlementLine);
+      linesByOrderId.set(l.order_id, arr);
+    }
+  }
+  for (const [orderId, group] of linesByOrderId) {
+    if (group.length < 2) continue;
+    const order = input.orders.find((o) => o.order_id === orderId);
+    if (!order) continue;
+    const sum = group.reduce((s, x) => s + x.amount_paise, 0);
+    if (sum === order.order_amount_paise) {
+      for (const g of group) partialHalfIds.add(g.entity_id);
+    }
+  }
+
   for (const line of input.settlementLines) {
     const orderLink = links.find((l) => l.left_source === 'settlement_line' && l.left_id === line.entity_id);
     const ambiguousOrderMatch = pass5.ambiguousMatches.find((a) => a.entity_id === line.entity_id);
@@ -266,6 +287,7 @@ export function reconcile(input: ReconcileInput): ReconcileOutput {
       feeVerdict,
       actualSettlementCreatedAt: actualSettlement?.created_at ?? null,
       orderAmountPaise: order?.order_amount_paise ?? null,
+      isPartialHalf: partialHalfIds.has(line.entity_id),
     });
 
     record('settlement_line', line.entity_id, classification, {

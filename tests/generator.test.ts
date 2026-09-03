@@ -35,7 +35,8 @@ function runGenerate(seed: number, profile: string, outDir: string): void {
 
 function readGroundTruthWithoutTimestamp(dir: string): unknown {
   const parsed = JSON.parse(readFileSync(join(dir, 'ground_truth.json'), 'utf8'));
-  const { generated_at, ...rest } = parsed;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { generated_at: _generated_at, ...rest } = parsed;
   return rest;
 }
 

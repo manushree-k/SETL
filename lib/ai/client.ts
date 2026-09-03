@@ -56,8 +56,10 @@ interface AnthropicMessageResponse {
 }
 
 function buildRequestBody(request: LlmRequest): string {
+  const model = env.LLM_MODEL;
+  if (!model) throw new Error('LLM_MODEL is required when LLM_ENABLED=true');
   return JSON.stringify({
-    model: env.LLM_MODEL,
+    model,
     max_tokens: request.maxTokens ?? DEFAULT_MAX_TOKENS,
     system: request.system,
     tools: [{ ...request.tool, strict: true }],
@@ -67,11 +69,12 @@ function buildRequestBody(request: LlmRequest): string {
 }
 
 async function postOnce(request: LlmRequest, signal: AbortSignal): Promise<Response> {
+  const apiKey = env.LLM_API_KEY ?? '';
   return fetch(ANTHROPIC_API_URL, {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
-      'x-api-key': env.LLM_API_KEY ?? '',
+      'x-api-key': apiKey,
       'anthropic-version': ANTHROPIC_VERSION,
     },
     body: buildRequestBody(request),

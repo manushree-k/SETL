@@ -11,6 +11,7 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { Decision, ExceptionClass } from '../types';
+import thresholdsJson from '../../config/thresholds.json';
 
 export type { Decision };
 
@@ -33,27 +34,38 @@ const PLACEHOLDER_THRESHOLDS: DecisionThresholds = {
   t_review: 0.5,
 };
 
+function isValidThresholds(v: unknown): v is DecisionThresholds {
+  if (typeof v !== 'object' || v === null) return false;
+  const t = v as Record<string, unknown>;
+  return (
+    typeof t.t_auto === 'number' &&
+    typeof t.t_review === 'number' &&
+    Number.isFinite(t.t_auto) &&
+    Number.isFinite(t.t_review) &&
+    t.t_auto >= 0 &&
+    t.t_auto <= 1 &&
+    t.t_review >= 0 &&
+    t.t_review <= 1 &&
+    t.t_review <= t.t_auto &&
+    t.t_review >= 0.3
+  );
+}
+
 /**
- * Read once, at module load — the same synchronous, load-once pattern
- * lib/env.ts uses for .env.local. Falls back to the placeholders above if
- * config/thresholds.json doesn't exist yet (before the first sweep run)
- * or is malformed; never throws for a missing file, since that would
- * block the engine from running at all on a fresh clone.
+ * Read once, at module load — bundled import first (ensures Vercel tracing),
+ * then filesystem (local dev override). Falls back to placeholders if invalid.
  */
 function loadThresholds(): DecisionThresholds {
+  if (isValidThresholds(thresholdsJson)) return thresholdsJson as DecisionThresholds;
+  // Filesystem override for local dev where config may have been re-swept
   try {
     const raw = readFileSync(join(process.cwd(), 'config', 'thresholds.json'), 'utf8');
     const parsed: unknown = JSON.parse(raw);
-    if (
-      typeof parsed === 'object' &&
-      parsed !== null &&
-      typeof (parsed as { t_auto?: unknown }).t_auto === 'number' &&
-      typeof (parsed as { t_review?: unknown }).t_review === 'number'
-    ) {
-      return { t_auto: (parsed as { t_auto: number }).t_auto, t_review: (parsed as { t_review: number }).t_review };
-    }
+    if (isValidThresholds(parsed)) return parsed;
+    console.warn(`[decide] invalid thresholds.json ${JSON.stringify(parsed)} — using bundled value`);
+    if (isValidThresholds(thresholdsJson)) return thresholdsJson as DecisionThresholds;
   } catch {
-    // Not present yet, or unreadable — fall through to the placeholders.
+    // missing — use bundled
   }
   return PLACEHOLDER_THRESHOLDS;
 }
@@ -89,6 +101,9 @@ export function decide(
   confidence: number,
   thresholds: DecisionThresholds = DEFAULT_THRESHOLDS
 ): Decision {
+  if (!isValidThresholds(thresholds)) {
+    throw new Error(`Invalid thresholds ${JSON.stringify(thresholds)} — must satisfy 0.3 ≤ t_review ≤ t_auto ≤ 1`);
+  }
   if (ALWAYS_UNRESOLVED.has(exceptionClass)) return 'UNRESOLVED';
 
   if (AUTO_RESOLVE_ELIGIBLE.has(exceptionClass) && confidence >= thresholds.t_auto) {

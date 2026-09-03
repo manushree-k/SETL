@@ -25,7 +25,6 @@
 import type { NormalizedBankLine, NormalizedSettlementLine } from '../normalize';
 import type { ExceptionClass, Link, Order, Settlement } from '../types';
 import type { UtrAmountMismatch } from './pass1-utr';
-import type { Pass2AmbiguousMatch } from './pass2-amountDate';
 import type { Pass3Ambiguity } from './pass3-aggregate';
 import type { Pass4Verdict } from './pass4-balance';
 import type { Pass5AmbiguousMatch, Pass5OrderVerdict } from './pass5-orderMatch';
@@ -273,6 +272,8 @@ export interface SettlementLineClassificationInput {
    * before picking this guard, see FAILURES.md 2026-08-31).
    */
   orderAmountPaise?: number | null;
+  /** True if this line is one half of a split payment (two lines share order_id and sum to order amount). */
+  isPartialHalf?: boolean;
 }
 
 /**
@@ -313,6 +314,19 @@ export function classifySettlementLine(input: SettlementLineClassificationInput)
       0.95,
       `Refund line ${line.entity_id} deducts ${line.debit_paise} paise from this settlement's payout.`,
       line.debit_paise
+    );
+  }
+
+  // PARTIAL_SETTLEMENT half — two lines share the same order_id and their
+  // combined amount reconstructs the order's full amount. Checked before
+  // TIMING_DIFFERENCE so a half that lands in a wrong cycle isn't
+  // misread as a timing difference (same guard as timing's own).
+  if (input.isPartialHalf) {
+    return classified(
+      'PARTIAL_SETTLEMENT',
+      0.9,
+      `Line ${line.entity_id} is one half of a split payment for order ${line.order_id} (combined halves reconstruct the order amount).`,
+      0
     );
   }
 
@@ -390,6 +404,22 @@ export function classifySettlementLine(input: SettlementLineClassificationInput)
       ambiguousOrderMatch.confidence,
       `Line ${line.entity_id} has ${ambiguousOrderMatch.candidate_count} equally plausible orders; refusing to guess.`,
       line.amount_paise
+    );
+  }
+
+  // Opaque adjustment / dispute / transfer with free-text description that
+  // isn't TDS and wasn't already classified — maps to AMOUNT_MISMATCH
+  // (ground truth expectation) rather than silent UNRESOLVED.
+  if (
+    (line.type === 'adjustment' || line.type === 'transfer' || line.type === 'dispute') &&
+    line.description.trim().length > 0
+  ) {
+    const impact = Math.abs(line.credit_paise - line.debit_paise) || line.debit_paise || line.credit_paise || line.amount_paise;
+    return classified(
+      'AMOUNT_MISMATCH',
+      0.5,
+      `Adjustment line ${line.entity_id} ("${line.description.slice(0, 80)}") requires manual review.`,
+      impact
     );
   }
 
