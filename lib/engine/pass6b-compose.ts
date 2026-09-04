@@ -150,6 +150,57 @@ export function runPass6B(
   const bankLinesByLineNo = new Map<number, NormalizedBankLine>();
   for (const b of bankLines) bankLinesByLineNo.set(b.line_no, b);
 
+  // Pre-compute prorated shares for shared credits (1 bank credit → N settlements,
+  // Pass3 direction "many_settlements_one_credit"). Without this, each settlement
+  // would sum the full credit and show DISCREPANCY/BANK_CREDIT even when correctly linked.
+  const sharedShareMap = new Map<string, number>(); // settlement_id → prorated paise
+  const sharedGroupMeta = new Map<string, { totalHeader: number; groupCredit: number; members: number }>();
+  const bankToSettlementGroups = new Map<string, Link[]>();
+  for (const l of links) {
+    if (l.relation !== 'bank_to_settlement') continue;
+    const arr = bankToSettlementGroups.get(l.left_id) ?? [];
+    arr.push(l);
+    bankToSettlementGroups.set(l.left_id, arr);
+  }
+  for (const [bankId, group] of bankToSettlementGroups) {
+    if (group.length <= 1) continue;
+    const bankLine = bankLinesByLineNo.get(Number(bankId));
+    if (!bankLine) continue;
+    const totalHeader = group.reduce((s, l) => {
+      const st = settlements.find((x) => x.settlement_id === l.right_id);
+      return s + (st?.amount_paise ?? 0);
+    }, 0);
+    if (totalHeader === 0) continue;
+    // Deterministic remainder distribution: largest settlement first, then id
+    const sorted = [...group].sort((a, b) => {
+      const aa = settlements.find((x) => x.settlement_id === a.right_id)?.amount_paise ?? 0;
+      const bb = settlements.find((x) => x.settlement_id === b.right_id)?.amount_paise ?? 0;
+      if (bb !== aa) return bb - aa;
+      return a.right_id.localeCompare(b.right_id);
+    });
+    let assigned = 0;
+    const shares: number[] = [];
+    for (const link of sorted) {
+      const amt = settlements.find((x) => x.settlement_id === link.right_id)?.amount_paise ?? 0;
+      const share = Math.floor((bankLine.credit_paise * amt) / totalHeader);
+      shares.push(share);
+      assigned += share;
+    }
+    let remainder = bankLine.credit_paise - assigned; // 0..group.length-1
+    for (let i = 0; i < shares.length && remainder > 0; i++) {
+      shares[i] += 1;
+      remainder -= 1;
+    }
+    for (let i = 0; i < sorted.length; i++) {
+      sharedShareMap.set(sorted[i].right_id, shares[i]);
+      sharedGroupMeta.set(sorted[i].right_id, {
+        totalHeader,
+        groupCredit: bankLine.credit_paise,
+        members: group.length,
+      });
+    }
+  }
+
   for (const settlement of settlements) {
     const lines = settlementLines.filter((l) => l.settlement_id === settlement.settlement_id);
 
@@ -228,20 +279,26 @@ export function runPass6B(
     }
 
     // Bank credit total: sum every bank line already linked to this
-    // settlement (Passes 1–3). A settlement paid as several credits
-    // (SPLIT_PAYOUT) sums them all; bank_line_count records how many.
+    // settlement. For aggregated credits (1 bank line → N settlements)
+    // we prorate the single credit proportionally by header amount so
+    // Σ shares == bank.credit and each settlement can be FULLY_RECONCILED.
     const settlementBankLinks = links.filter(
       (l) => l.relation === 'bank_to_settlement' && l.right_id === settlement.settlement_id
     );
     let bankCreditTotal: number | null = null;
     let bankLineCount = 0;
     if (settlementBankLinks.length > 0) {
-      bankCreditTotal = 0;
-      for (const link of settlementBankLinks) {
-        const bankLine = bankLinesByLineNo.get(Number(link.left_id));
-        if (bankLine !== undefined) {
-          bankCreditTotal += bankLine.credit_paise;
-          bankLineCount += 1;
+      if (sharedShareMap.has(settlement.settlement_id)) {
+        bankCreditTotal = sharedShareMap.get(settlement.settlement_id)!;
+        bankLineCount = sharedGroupMeta.get(settlement.settlement_id)?.members ?? settlementBankLinks.length;
+      } else {
+        bankCreditTotal = 0;
+        for (const link of settlementBankLinks) {
+          const bankLine = bankLinesByLineNo.get(Number(link.left_id));
+          if (bankLine !== undefined) {
+            bankCreditTotal += bankLine.credit_paise;
+            bankLineCount += 1;
+          }
         }
       }
     }
@@ -287,6 +344,13 @@ export function runPass6B(
       }
     }
 
+    const evidence: Record<string, unknown> = { bank_line_count: bankLineCount };
+    if (sharedGroupMeta.has(settlement.settlement_id)) {
+      const meta = sharedGroupMeta.get(settlement.settlement_id)!;
+      evidence.shared_credit_total = meta.groupCredit;
+      evidence.shared_credit_members = meta.members;
+      evidence.shared_credit_prorated = true;
+    }
     compositions.push({
       settlement_id: settlement.settlement_id,
       gross_payments_paise: gross,
@@ -307,7 +371,7 @@ export function runPass6B(
       adjustment_count: adjustmentCount,
       status,
       discrepancy_component: discrepancyComponent,
-      evidence: { bank_line_count: bankLineCount },
+      evidence,
     });
 
     lineContributions.push(...contributions);

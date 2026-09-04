@@ -251,6 +251,27 @@ export function reconcile(input: ReconcileInput): ReconcileOutput {
   }
 
   // --- Settlement lines ---------------------------------------------------------
+  // Pre-compute PARTIAL_SETTLEMENT halves: order_id appears in >=2 lines
+  // and their combined amount reconstructs the order's full amount.
+  const partialHalfIds = new Set<string>();
+  const linesByOrderId = new Map<string, NormalizedSettlementLine[]>();
+  for (const l of input.settlementLines) {
+    if (l.order_id) {
+      const arr = linesByOrderId.get(l.order_id) ?? [];
+      arr.push(l as NormalizedSettlementLine);
+      linesByOrderId.set(l.order_id, arr);
+    }
+  }
+  for (const [orderId, group] of linesByOrderId) {
+    if (group.length < 2) continue;
+    const order = input.orders.find((o) => o.order_id === orderId);
+    if (!order) continue;
+    const sum = group.reduce((s, x) => s + x.amount_paise, 0);
+    if (sum === order.order_amount_paise) {
+      for (const g of group) partialHalfIds.add(g.entity_id);
+    }
+  }
+
   for (const line of input.settlementLines) {
     const orderLink = links.find((l) => l.left_source === 'settlement_line' && l.left_id === line.entity_id);
     const ambiguousOrderMatch = pass5.ambiguousMatches.find((a) => a.entity_id === line.entity_id);
@@ -266,6 +287,7 @@ export function reconcile(input: ReconcileInput): ReconcileOutput {
       feeVerdict,
       actualSettlementCreatedAt: actualSettlement?.created_at ?? null,
       orderAmountPaise: order?.order_amount_paise ?? null,
+      isPartialHalf: partialHalfIds.has(line.entity_id),
     });
 
     record('settlement_line', line.entity_id, classification, {
@@ -479,19 +501,29 @@ export async function runReconciliation(batch: Batch): Promise<RunReconciliation
 
     const result = reconcile({ orders, settlements, settlementLines, bankLines, rateCard });
 
+    console.log(`[run:${runId}] begin tx for ${batch} — ${bankLines.length} bank, ${result.links.length} links, ${result.exceptions.length} exc`);
     await sql.begin(async (tx) => {
-      // Pass 0's UTR extraction, written back onto the rows seed.ts left
-      // un-normalized. One UPDATE per line — the batch is ~300 records, so
-      // this is well within a demo's patience; a bulk VALUES-join UPDATE
-      // would be the next step if that ever stopped being true.
-      for (const bankLine of bankLines) {
+      // Idempotency: re-running same run_id (e.g. double POST) must not hit PK duplicate
+      console.log(`[run:${runId}] clearing previous results for idempotency`);
+      await tx`DELETE FROM links WHERE run_id = ${runId}`;
+      await tx`DELETE FROM exceptions WHERE run_id = ${runId}`;
+      await tx`DELETE FROM audit_log WHERE run_id = ${runId}`;
+      await tx`DELETE FROM settlement_composition WHERE run_id = ${runId}`;
+      console.log(`[run:${runId}] cleared`);
+      console.log(`[run:${runId}] tx start — updating ${bankLines.length} bank_lines`);
+      if (bankLines.length > 0) {
+        const bankData = bankLines.map(b => ({ line_no: b.line_no, parsed_utr: b.parsed_utr, parse_source: b.parse_source }));
         await tx`
-          UPDATE bank_lines
-          SET parsed_utr = ${bankLine.parsed_utr}, parse_source = ${bankLine.parse_source}
-          WHERE run_id = ${runId} AND line_no = ${bankLine.line_no}
+          UPDATE bank_lines AS bl
+          SET parsed_utr = x.parsed_utr, parse_source = x.parse_source
+          FROM json_to_recordset(${tx.json(bankData as unknown as postgres.JSONValue)}::json)
+            AS x(line_no int, parsed_utr text, parse_source text)
+          WHERE bl.run_id = ${runId} AND bl.line_no = x.line_no
         `;
+        console.log(`[run:${runId}] bank_lines updated`);
       }
 
+      console.log(`[run:${runId}] inserting ${result.links.length} links`);
       if (result.links.length > 0) {
         const linkRows = result.links.map((link) => ({
           id: `link_${randomId()}`,
@@ -520,8 +552,10 @@ export async function runReconciliation(batch: Batch): Promise<RunReconciliation
             'evidence'
           )}
         `;
+        console.log(`[run:${runId}] links inserted`);
       }
 
+      console.log(`[run:${runId}] inserting ${result.exceptions.length} exceptions`);
       if (result.exceptions.length > 0) {
         const exceptionRows = result.exceptions.map((exception) => ({
           id: `exc_${randomId()}`,
@@ -554,6 +588,7 @@ export async function runReconciliation(batch: Batch): Promise<RunReconciliation
             'next_action'
           )}
         `;
+        console.log(`[run:${runId}] exceptions inserted`);
       }
 
       if (result.audit.length > 0) {
@@ -632,16 +667,22 @@ export async function runReconciliation(batch: Batch): Promise<RunReconciliation
         `;
       }
 
-      // One UPDATE per line, same reasoning as the bank_lines write-back
-      // above — ~330 lines on the main batch, well within a demo's patience.
-      for (const contribution of result.lineContributions) {
+      console.log(`[run:${runId}] updating ${result.lineContributions.length} contributions (bulk)`);
+      if (result.lineContributions.length > 0) {
+        const contribData = result.lineContributions.map(c => ({
+          entity_id: c.entity_id,
+          contribution: c.contribution_paise,
+          bucket: c.contribution_bucket,
+          reason: c.contribution_reason,
+        }));
         await tx`
-          UPDATE settlement_lines
-          SET contribution = ${contribution.contribution_paise},
-              contribution_bucket = ${contribution.contribution_bucket},
-              contribution_reason = ${contribution.contribution_reason}
-          WHERE run_id = ${runId} AND entity_id = ${contribution.entity_id}
+          UPDATE settlement_lines AS sl
+          SET contribution = x.contribution, contribution_bucket = x.bucket, contribution_reason = x.reason
+          FROM json_to_recordset(${tx.json(contribData as unknown as postgres.JSONValue)}::json)
+            AS x(entity_id text, contribution bigint, bucket text, reason text)
+          WHERE sl.run_id = ${runId} AND sl.entity_id = x.entity_id
         `;
+        console.log(`[run:${runId}] contributions updated`);
       }
 
       await tx`

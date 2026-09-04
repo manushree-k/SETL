@@ -26,10 +26,12 @@ function createClient() {
     // but not so much that a Vercel function sits until it is killed.
     connect_timeout: 15,
     // Serverless functions are short-lived and numerous; a small pool per
-    // instance avoids exhausting Neon's connection limit.
-    max: 5,
+    // instance avoids exhausting Neon's connection limit. Hobby/free: keep 1.
+    max: 1,
     idle_timeout: 20,
-    // Amounts are BIGINT paise. node-postgres would hand these back as
+    // pgbouncer (Neon pooler) and serverless both require prepare:false
+    prepare: false,
+    // Amounts are BIGINT paise. postgres.js would hand these back as
     // strings to avoid precision loss, but every amount in this system is
     // well inside 2^53, so we parse INT8 (oid 20) to a JS number and
     // assert that it survived exactly. Silent precision loss on money is
@@ -51,12 +53,6 @@ function createClient() {
         },
       },
       // Confidence scores are NUMERIC(5,4) — a ratio in [0,1], never money.
-      // Without this override postgres.js hands NUMERIC back as a string
-      // (its default precision-preserving behaviour, same reasoning as
-      // BIGINT above), which would silently turn every confidence read
-      // from the database into a string one comparison or arithmetic op
-      // away from a bug. A ratio this small is safely inside float64
-      // precision, so parsing to a number here loses nothing.
       numeric: {
         to: 1700,
         from: [1700],
@@ -73,10 +69,34 @@ function createClient() {
   });
 }
 
-export const sql = globalForDb.setlSql ?? createClient();
+let _sql: ReturnType<typeof postgres> | undefined;
 
-if (process.env.NODE_ENV !== 'production') {
-  globalForDb.setlSql = sql;
+function getSql(): ReturnType<typeof postgres> {
+  if (_sql) return _sql;
+  if (globalForDb.setlSql) {
+    _sql = globalForDb.setlSql;
+    return _sql;
+  }
+  _sql = createClient();
+  if (process.env.NODE_ENV !== 'production') {
+    globalForDb.setlSql = _sql;
+  }
+  return _sql;
 }
+
+// Lazy proxy — defers env.DATABASE_URL read until first query, so
+// `next build` can import this file without DATABASE_URL set.
+// Cast through unknown to satisfy postgres.js type which is both callable and object.
+export const sql = new Proxy(
+  ((...args: unknown[]) => (getSql() as unknown as (...a: unknown[]) => unknown)(...args)) as unknown as ReturnType<typeof postgres>,
+  {
+    get(_target, prop) {
+      return (getSql() as unknown as Record<string | symbol, unknown>)[prop];
+    },
+    apply(_target, _thisArg, args) {
+      return (getSql() as unknown as (...a: unknown[]) => unknown)(...args);
+    },
+  }
+);
 
 export default sql;
